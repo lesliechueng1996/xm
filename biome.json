@@ -6,7 +6,8 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": ["apps/**", "packages/**", "!**/.turbo"]
   },
   "formatter": {
     "enabled": true,
