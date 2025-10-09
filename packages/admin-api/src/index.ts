@@ -1,9 +1,7 @@
 import { Hono } from 'hono';
+import loginHandler from './handlers/login-handler.js';
 
 const adminApi = new Hono();
 
-adminApi.get('/', (c) => {
-  return c.text('Hello admin!!');
-});
-
+adminApi.route('/login', loginHandler);
 export default adminApi;

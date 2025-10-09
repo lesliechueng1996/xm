@@ -3,7 +3,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { routeTree } from './routeTree.gen';
 import './index.css';
-import { HeroUIProvider } from '@heroui/react';
+import { HeroUIProvider, ToastProvider } from '@heroui/react';
 
 const router = createRouter({ routeTree });
 
@@ -19,6 +19,7 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <HeroUIProvider>
+        <ToastProvider placement="top-center" />
         <RouterProvider router={router} />
       </HeroUIProvider>
     </StrictMode>,

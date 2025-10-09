@@ -1,14 +1,7 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Form,
-  Image,
-  Input,
-} from '@heroui/react';
+import { Button, Card, CardBody, CardHeader, Form, Input } from '@heroui/react';
 import Password from '@repo/ui-component/Password';
 import { createFileRoute } from '@tanstack/react-router';
+import CaptchaImage from './-components/CaptchaImage';
 
 const LoginPage = () => {
   return (
@@ -41,6 +34,7 @@ const LoginPage = () => {
               />
               <div className="flex items-end gap-2">
                 <Input
+                  className="w-1/2"
                   isRequired
                   errorMessage="请输入验证码"
                   label="验证码"
@@ -49,12 +43,7 @@ const LoginPage = () => {
                   placeholder="请输入验证码"
                   type="text"
                 />
-                <Image
-                  alt="verify code"
-                  height={40}
-                  src="https://placehold.co/40x40"
-                  width={40}
-                />
+                <CaptchaImage />
               </div>
               <div>
                 <Button color="primary" type="submit">

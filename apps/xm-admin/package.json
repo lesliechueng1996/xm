@@ -18,7 +18,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.14",
-    "@repo/ui-component": "workspace:*"
+    "@repo/ui-component": "workspace:*",
+    "@repo/admin-api-types": "workspace:*"
   },
   "devDependencies": {
     "@tanstack/router-plugin": "^1.132.51",
