@@ -1,0 +1,24 @@
+{
+  "name": "@repo/ui-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@heroui/react": "^2.8.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.14"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "typescript": "~5.9.3"
+  },
+  "exports": {
+    "./*": "./src/*.tsx"
+  }
+}
