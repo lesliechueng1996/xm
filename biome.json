@@ -12,7 +12,8 @@
       "packages/**",
       "!**/.turbo",
       "!**/*.gen.ts",
-      "!**/dist"
+      "!**/dist",
+      "!**/*.css"
     ]
   },
   "formatter": {
