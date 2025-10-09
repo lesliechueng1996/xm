@@ -18,6 +18,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "svg-captcha": "^1.4.0"
+    "svg-captcha": "^1.4.0",
+    "@repo/admin-api-types": "workspace:*"
   }
 }
