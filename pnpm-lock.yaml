@@ -84,6 +84,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.5
         version: 1.19.5(hono@4.9.10)
+      '@repo/admin-api':
+        specifier: workspace:*
+        version: link:../../packages/admin-api
       hono:
         specifier: ^4.9.10
         version: 4.9.10
@@ -98,7 +101,21 @@ importers:
         specifier: ^5.8.3
         version: 5.9.2
 
-  packages/typescript-config: {}
+  packages/admin-api:
+    dependencies:
+      hono:
+        specifier: ^4.9.10
+        version: 4.9.10
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.17
+        version: 20.19.19
+      tsx:
+        specifier: ^4.7.1
+        version: 4.20.6
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.3
 
   packages/ui-component:
     dependencies:

@@ -1,11 +1,14 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import adminApi from '@repo/admin-api';
 
 const app = new Hono();
 
 app.get('/', (c) => {
   return c.text('Hello Hono!');
 });
+
+app.route('/admin', adminApi);
 
 serve(
   {
