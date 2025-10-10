@@ -1,9 +1,54 @@
-import { Button, Card, CardBody, CardHeader, Form, Input } from '@heroui/react';
+import {
+  addToast,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Form,
+  Input,
+} from '@heroui/react';
 import Password from '@repo/ui-component/Password';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
+import { z } from 'zod';
+import { login } from '@/apis/login-api';
 import CaptchaImage from './-components/CaptchaImage';
 
+type LoginForm = {
+  username: string;
+  password: string;
+  captcha: string;
+};
+
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = Object.fromEntries(
+      new FormData(e.target as HTMLFormElement),
+    ) as LoginForm;
+    try {
+      setLoading(true);
+      const token = await login(data.username, data.password, data.captcha);
+      localStorage.setItem('token', token);
+      navigate({ to: redirect ?? '/' });
+    } catch (error) {
+      console.error(error);
+      addToast({
+        title: '错误',
+        description:
+          error instanceof Error ? error.message : '登录失败，请重试',
+        color: 'danger',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen w-screen bg-[url(/images/login-bg.jpg)] bg-cover bg-no-repeat flex items-center justify-center">
       <div className="w-full h-full flex items-center justify-center md:justify-end">
@@ -14,7 +59,10 @@ const LoginPage = () => {
             </p>
           </CardHeader>
           <CardBody className="w-full">
-            <Form className="w-full flex flex-col gap-4">
+            <Form
+              className="w-full flex flex-col gap-4"
+              onSubmit={handleSubmit}
+            >
               <Input
                 isRequired
                 errorMessage="请输入管理员姓名"
@@ -46,7 +94,7 @@ const LoginPage = () => {
                 <CaptchaImage />
               </div>
               <div>
-                <Button color="primary" type="submit">
+                <Button color="primary" isLoading={loading} type="submit">
                   进入管理中心
                 </Button>
               </div>
@@ -58,4 +106,11 @@ const LoginPage = () => {
   );
 };
 
-export const Route = createFileRoute('/login')({ component: LoginPage });
+const loginSearchSchema = z.object({
+  redirect: z.string().optional(),
+});
+
+export const Route = createFileRoute('/login')({
+  component: LoginPage,
+  validateSearch: loginSearchSchema,
+});

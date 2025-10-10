@@ -13,12 +13,15 @@
     "hono": "^4.9.10"
   },
   "devDependencies": {
+    "@types/md5": "^2.3.5",
     "@types/node": "^20.11.17",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "svg-captcha": "^1.4.0",
-    "@repo/admin-api-types": "workspace:*"
+    "@repo/admin-api-types": "workspace:*",
+    "@repo/database": "workspace:*",
+    "md5": "^2.3.0",
+    "svg-captcha": "^1.4.0"
   }
 }

@@ -13,7 +13,8 @@
       "!**/.turbo",
       "!**/*.gen.ts",
       "!**/dist",
-      "!**/*.css"
+      "!**/*.css",
+      "!**/generated"
     ]
   },
   "formatter": {

@@ -10,4 +10,6 @@ const IndexPage = () => {
   );
 };
 
-export const Route = createFileRoute('/')({ component: IndexPage });
+export const Route = createFileRoute('/_authenticated/')({
+  component: IndexPage,
+});
