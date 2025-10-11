@@ -1,9 +1,9 @@
 import { Hono } from 'hono';
 import type { JwtVariables } from 'hono/jwt';
 import { jwt } from 'hono/jwt';
+import z from 'zod';
 import loginHandler from './handlers/login-handler.js';
 import { issuer } from './services/login-service.js';
-import z from 'zod';
 
 z.config(z.locales.zhCN());
 
