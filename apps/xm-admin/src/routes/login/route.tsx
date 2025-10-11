@@ -87,7 +87,7 @@ const LoginPage = () => {
                   errorMessage="请输入验证码"
                   label="验证码"
                   labelPlacement="outside"
-                  name="code"
+                  name="captcha"
                   placeholder="请输入验证码"
                   type="text"
                 />

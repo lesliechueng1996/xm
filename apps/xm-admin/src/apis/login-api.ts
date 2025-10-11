@@ -14,6 +14,9 @@ export const login = async (
   const response = await fetch('/admin/login', {
     method: 'POST',
     body: JSON.stringify({ username, password, captcha }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
   const data = await response.json();
   if (!response.ok) {
