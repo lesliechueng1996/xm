@@ -3,6 +3,9 @@ import type { JwtVariables } from 'hono/jwt';
 import { jwt } from 'hono/jwt';
 import loginHandler from './handlers/login-handler.js';
 import { issuer } from './services/login-service.js';
+import z from 'zod';
+
+z.config(z.locales.zhCN());
 
 type Variables = JwtVariables;
 

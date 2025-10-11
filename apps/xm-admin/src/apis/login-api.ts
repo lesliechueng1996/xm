@@ -13,7 +13,7 @@ export const login = async (
 ) => {
   const response = await fetch('/admin/login', {
     method: 'POST',
-    body: JSON.stringify({ username1: username, password, captcha }),
+    body: JSON.stringify({ username, password, captcha }),
   });
   const data = await response.json();
   if (!response.ok) {
