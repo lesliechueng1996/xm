@@ -1,9 +1,8 @@
-import type {
-  GetCaptchaResponse,
-  LoginRequest,
-  LoginResponse,
-} from '@repo/admin-api-types';
+import type { GetCaptchaResponse, LoginResponse } from '@repo/admin-api-types';
+import { loginRequestSchema } from '@repo/admin-api-types';
 import { Hono } from 'hono';
+import { validator } from 'hono/validator';
+import { z } from 'zod';
 import { generateCaptcha } from '../services/captcha-service.js';
 import { adminLogin } from '../services/login-service.js';
 
@@ -16,12 +15,27 @@ loginHandler.get('/code', (c) => {
   } as GetCaptchaResponse);
 });
 
-loginHandler.post('/', async (c) => {
-  const body = await c.req.json<LoginRequest>();
-  const token = await adminLogin(body.username, body.password);
-  return c.json({
-    token,
-  } as LoginResponse);
-});
+loginHandler.post(
+  '/',
+  validator('json', (value, c) => {
+    const parsed = loginRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(
+        {
+          message: z.prettifyError(parsed.error),
+        },
+        400,
+      );
+    }
+    return parsed.data;
+  }),
+  async (c) => {
+    const body = c.req.valid('json');
+    const token = await adminLogin(body.username, body.password);
+    return c.json({
+      token,
+    } as LoginResponse);
+  },
+);
 
 export default loginHandler;

@@ -1,12 +1,16 @@
+import z from 'zod';
+
 export type GetCaptchaResponse = {
   data: string;
 };
 
-export type LoginRequest = {
-  username: string;
-  password: string;
-  captcha: string;
-};
+export const loginRequestSchema = z.object({
+  username: z.string('管理员姓名应该是非空字符串'),
+  password: z.string('管理员密码应该是非空字符串'),
+  captcha: z.string('验证码应该是非空字符串'),
+});
+
+export type LoginRequest = z.infer<typeof loginRequestSchema>;
 
 export type LoginResponse = {
   token: string;

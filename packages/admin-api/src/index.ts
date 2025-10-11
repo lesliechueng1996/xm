@@ -10,11 +10,12 @@ const adminApi = new Hono<{ Variables: Variables }>();
 
 adminApi.use(async (c, next) => {
   const path = c.req.path;
-  if (path.startsWith('/login')) {
+  console.log(path);
+  if (path.startsWith('/admin/login')) {
     await next();
     return;
   }
-  jwt({
+  return jwt({
     secret: process.env.JWT_SECRET as string,
     verification: {
       iss: issuer,
