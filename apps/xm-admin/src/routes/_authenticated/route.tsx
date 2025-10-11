@@ -1,8 +1,16 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { isTokenValid } from '@/utils/token-util';
+import Header from './-components/Header';
 
 const AuthenticatedLayout = () => {
-  return <Outlet />;
+  return (
+    <div className="h-screen w-screen flex flex-col">
+      <Header />
+      <main className="flex-grow p-4">
+        <Outlet />
+      </main>
+    </div>
+  );
 };
 
 export const Route = createFileRoute('/_authenticated')({

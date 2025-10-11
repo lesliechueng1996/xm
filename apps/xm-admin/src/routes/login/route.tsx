@@ -13,6 +13,7 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { z } from 'zod';
 import { login } from '@/apis/login-api';
+import useUser from '@/hooks/useUser';
 import CaptchaImage from './-components/CaptchaImage';
 
 type LoginForm = {
@@ -25,6 +26,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { redirect } = Route.useSearch();
   const [loading, setLoading] = useState(false);
+  const { setUserFromToken } = useUser();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const LoginPage = () => {
     try {
       setLoading(true);
       const token = await login(data.username, data.password, data.captcha);
-      localStorage.setItem('token', token);
+      setUserFromToken(token);
       navigate({ to: redirect ?? '/' });
     } catch (error) {
       console.error(error);

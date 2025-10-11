@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { routeTree } from './routeTree.gen';
 import './index.css';
 import { HeroUIProvider, ToastProvider } from '@heroui/react';
+import UserProvider from './providers/UserProvider';
 
 const router = createRouter({ routeTree });
 
@@ -20,7 +21,9 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <HeroUIProvider>
         <ToastProvider placement="top-center" />
-        <RouterProvider router={router} />
+        <UserProvider>
+          <RouterProvider router={router} />
+        </UserProvider>
       </HeroUIProvider>
     </StrictMode>,
   );

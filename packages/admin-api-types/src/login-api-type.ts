@@ -15,3 +15,14 @@ export type LoginRequest = z.infer<typeof loginRequestSchema>;
 export type LoginResponse = {
   token: string;
 };
+
+export type TokenPayload = {
+  sub: string;
+  role: string;
+  isSuper: number;
+  iat: number;
+  nbf: number;
+  iss: string;
+  exp: number;
+  username: string;
+};

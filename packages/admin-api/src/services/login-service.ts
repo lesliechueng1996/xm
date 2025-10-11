@@ -1,3 +1,4 @@
+import type { TokenPayload } from '@repo/admin-api-types';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
 import md5 from 'md5';
@@ -22,7 +23,7 @@ export const adminLogin = async (username: string, password: string) => {
     });
   }
 
-  const payload = {
+  const payload: TokenPayload = {
     sub: adminUser.id,
     role: adminUser.roleId,
     isSuper: adminUser.isSuper,
@@ -30,6 +31,7 @@ export const adminLogin = async (username: string, password: string) => {
     nbf: Math.floor(Date.now() / 1000),
     iss: issuer,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 days
+    username: adminUser.username,
   };
   const token = await sign(payload, process.env.JWT_SECRET as string);
   return token;
