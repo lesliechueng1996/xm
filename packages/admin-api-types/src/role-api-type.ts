@@ -1,3 +1,4 @@
+import type { PaginationResponse } from '@repo/common-types';
 import z from 'zod';
 
 export const createRoleRequestSchema = z.object({
@@ -13,3 +14,10 @@ export type CreateRoleRequest = z.infer<typeof createRoleRequestSchema>;
 export type CreateRoleResponse = {
   id: string;
 };
+
+export type PaginationRolesResponse = PaginationResponse<{
+  id: string;
+  name: string;
+  description: string;
+  createdAt: number;
+}>;

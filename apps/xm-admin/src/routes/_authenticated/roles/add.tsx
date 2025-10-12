@@ -1,4 +1,5 @@
 import { addToast, Button, Form, Input, Textarea } from '@heroui/react';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import type { FormEvent } from 'react';
 import { useDocumentTitle } from 'usehooks-ts';
@@ -12,13 +13,16 @@ type FormType = {
 const AddRolePage = () => {
   const navigate = useNavigate();
   useDocumentTitle('增加角色');
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (data: FormType) => createRole(data.name, data.description),
+  });
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = Object.fromEntries(new FormData(e.currentTarget)) as FormType;
     try {
-      await createRole(data.name, data.description);
+      await mutateAsync(data);
       addToast({
         title: '成功',
         description: '创建角色成功',
@@ -56,7 +60,7 @@ const AddRolePage = () => {
         minRows={6}
         maxRows={8}
       />
-      <Button type="submit" variant="bordered">
+      <Button type="submit" variant="bordered" isLoading={isPending}>
         提交
       </Button>
     </Form>

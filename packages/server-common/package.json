@@ -9,12 +9,11 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
-  "peerDependencies": {
-    "hono": "^4.9.10",
-    "zod": "^4.1.12"
-  },
   "devDependencies": {
     "typescript": "5.9.3",
     "@types/node": "^20.11.17"
+  },
+  "dependencies": {
+    "@repo/common-types": "workspace:*"
   }
 }

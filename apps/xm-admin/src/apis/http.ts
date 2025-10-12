@@ -1,8 +1,8 @@
 export const sendRequest = async (
   url: string,
-  options: Omit<RequestInit, 'body'> & { body?: object },
+  options?: Omit<RequestInit, 'body'> & { body?: object },
 ) => {
-  const { body, headers, ...rest } = options;
+  const { body, headers, ...rest } = options ?? {};
   const token = localStorage.getItem('token');
   if (!token) {
     window.location.href = '/login';
@@ -31,9 +31,16 @@ export const sendRequest = async (
   return data;
 };
 
+export const get = async (
+  url: string,
+  options?: Omit<Parameters<typeof sendRequest>[1], 'method'>,
+) => {
+  return sendRequest(url, { ...options, method: 'GET' });
+};
+
 export const post = async (
   url: string,
-  options: Omit<Parameters<typeof sendRequest>[1], 'method'>,
+  options?: Omit<Parameters<typeof sendRequest>[1], 'method'>,
 ) => {
   return sendRequest(url, { ...options, method: 'POST' });
 };

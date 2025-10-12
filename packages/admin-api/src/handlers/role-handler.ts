@@ -2,10 +2,11 @@ import {
   type CreateRoleResponse,
   createRoleRequestSchema,
 } from '@repo/admin-api-types';
+import { paginationRequestSchema } from '@repo/common-types';
 import { Hono } from 'hono';
 import { validator } from 'hono/validator';
 import { z } from 'zod';
-import { createRole } from '../services/admin-role-service.js';
+import { createRole, paginationRoles } from '../services/admin-role-service.js';
 
 const roleHandler = new Hono();
 
@@ -29,6 +30,26 @@ roleHandler.post(
     return c.json({
       id: role.id,
     } as CreateRoleResponse);
+  },
+);
+
+roleHandler.get(
+  '/',
+  validator('query', (value, c) => {
+    const parsed = paginationRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(
+        {
+          message: z.prettifyError(parsed.error),
+        },
+        400,
+      );
+    }
+    return parsed.data;
+  }),
+  async (c) => {
+    const query = c.req.valid('query');
+    return c.json(await paginationRoles(query));
   },
 );
 
