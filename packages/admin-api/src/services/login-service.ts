@@ -1,8 +1,8 @@
 import type { TokenPayload } from '@repo/admin-api-types';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
-import { findAdminUserByUsername } from './admin-user-service.js';
 import { encryptPassword } from '../utils/password-util.js';
+import { findAdminUserByUsername } from './admin-user-service.js';
 
 export const issuer = 'admin-api';
 

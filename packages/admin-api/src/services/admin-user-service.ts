@@ -1,8 +1,8 @@
 import type { PaginationRequest } from '@repo/common-types';
+import type { AdminUser } from '@repo/database';
 import { prisma } from '@repo/database';
 import { buildPaginationResponse } from '@repo/server-common';
 import { HTTPException } from 'hono/http-exception';
-import type { AdminUser } from '@repo/database';
 import { encryptPassword } from '../utils/password-util.js';
 
 export const findAdminUserByUsername = async (username: string) => {

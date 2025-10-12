@@ -1,8 +1,8 @@
-import { allRoleOptions } from '@/apis/role-api';
 import { Button, Form, Input, Select, SelectItem } from '@heroui/react';
 import Password from '@repo/ui-component/Password';
 import { useQuery } from '@tanstack/react-query';
 import type { FormEvent } from 'react';
+import { allRoleOptions } from '@/apis/role-api';
 
 export type FormType = {
   username: string;

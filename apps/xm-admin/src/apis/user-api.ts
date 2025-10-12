@@ -6,9 +6,9 @@ import type {
   GetUserResponse,
   PaginationUsersResponse,
 } from '@repo/admin-api-types';
-import { del, get, post, put } from './http';
 import type { PaginationRequest } from '@repo/common-types';
 import qs from 'qs';
+import { del, get, post, put } from './http';
 
 export const createUser = async (
   data: CreateUserRequest,

@@ -5,10 +5,10 @@ import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
-import DataTable, { type Column } from '@/components/DataTable';
-import { formatDate } from '@/utils/date-util';
 import { deleteUser, paginationUsers } from '@/apis/user-api';
+import DataTable, { type Column } from '@/components/DataTable';
 import useUser from '@/hooks/useUser';
+import { formatDate } from '@/utils/date-util';
 
 const UsersPage = () => {
   useDocumentTitle('管理员列表');

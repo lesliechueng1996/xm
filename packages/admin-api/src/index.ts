@@ -4,8 +4,8 @@ import { jwt } from 'hono/jwt';
 import z from 'zod';
 import loginHandler from './handlers/login-handler.js';
 import roleHandler from './handlers/role-handler.js';
-import { issuer } from './services/login-service.js';
 import userHandler from './handlers/user-handler.js';
+import { issuer } from './services/login-service.js';
 
 z.config(z.locales.zhCN());
 
