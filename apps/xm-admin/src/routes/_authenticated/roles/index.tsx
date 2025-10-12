@@ -1,7 +1,7 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { Button } from '@heroui/react';
 import type { PaginationRolesResponse } from '@repo/admin-api-types';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { paginationRoles } from '@/apis/role-api';
 import DataTable, { type Column } from '@/components/DataTable';
@@ -9,6 +9,7 @@ import { formatDate } from '@/utils/date-util';
 
 const RolesPage = () => {
   useDocumentTitle('角色列表');
+  const navigate = useNavigate();
 
   const columns: Column<PaginationRolesResponse['results'][number]>[] = [
     {
@@ -27,13 +28,16 @@ const RolesPage = () => {
     {
       key: 'op',
       label: '操作',
-      render: () => (
+      render: (item) => (
         <div className="flex gap-2">
           <Button
             isIconOnly
             aria-label="编辑角色"
             variant="faded"
             color="secondary"
+            onPress={() =>
+              navigate({ to: '/roles/$roleId', params: { roleId: item.id } })
+            }
           >
             <PencilSquareIcon className="size-4" />
           </Button>

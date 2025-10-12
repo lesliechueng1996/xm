@@ -44,3 +44,10 @@ export const post = async (
 ) => {
   return sendRequest(url, { ...options, method: 'POST' });
 };
+
+export const put = async (
+  url: string,
+  options?: Omit<Parameters<typeof sendRequest>[1], 'method'>,
+) => {
+  return sendRequest(url, { ...options, method: 'PUT' });
+};

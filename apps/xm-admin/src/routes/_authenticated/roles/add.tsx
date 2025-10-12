@@ -1,14 +1,9 @@
-import { addToast, Button, Form, Input, Textarea } from '@heroui/react';
+import { addToast } from '@heroui/react';
 import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import type { FormEvent } from 'react';
 import { useDocumentTitle } from 'usehooks-ts';
 import { createRole } from '@/apis/role-api';
-
-type FormType = {
-  name: string;
-  description?: string;
-};
+import RoleForm, { type FormType } from './-components/RoleForm';
 
 const AddRolePage = () => {
   const navigate = useNavigate();
@@ -17,10 +12,7 @@ const AddRolePage = () => {
     mutationFn: (data: FormType) => createRole(data.name, data.description),
   });
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const data = Object.fromEntries(new FormData(e.currentTarget)) as FormType;
+  const onSave = async (data: FormType) => {
     try {
       await mutateAsync(data);
       addToast({
@@ -38,33 +30,7 @@ const AddRolePage = () => {
     }
   };
 
-  return (
-    <Form className="w-full max-w-xl" onSubmit={onSubmit}>
-      <Input
-        isRequired
-        className="max-w-xs"
-        errorMessage="角色名称不能为空"
-        label="角色名称"
-        labelPlacement="outside"
-        name="name"
-        placeholder="请输入角色名称"
-        maxLength={16}
-      />
-      <Textarea
-        className="w-full"
-        isClearable
-        label="角色描述"
-        labelPlacement="outside"
-        name="description"
-        placeholder="请输入角色描述"
-        minRows={6}
-        maxRows={8}
-      />
-      <Button type="submit" variant="bordered" isLoading={isPending}>
-        提交
-      </Button>
-    </Form>
-  );
+  return <RoleForm onSave={onSave} isPending={isPending} />;
 };
 
 export const Route = createFileRoute('/_authenticated/roles/add')({
