@@ -23,7 +23,20 @@ type UserProviderProps = {
 };
 
 const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+    const payload = JSON.parse(atob(token.split('.')[1])) as TokenPayload;
+    return {
+      userId: payload.sub,
+      roleId: payload.role,
+      isSuper: payload.isSuper,
+      exp: payload.exp,
+      username: payload.username,
+    };
+  });
 
   const setUserFromToken = (token: string) => {
     localStorage.setItem('token', token);
