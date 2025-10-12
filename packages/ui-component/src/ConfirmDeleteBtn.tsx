@@ -1,5 +1,5 @@
+import { ExclamationTriangleIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { Button, Popover, PopoverContent, PopoverTrigger } from '@heroui/react';
-import { TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 type Props = {

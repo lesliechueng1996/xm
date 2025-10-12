@@ -2,6 +2,7 @@ import {
   addToast,
   getKeyValue,
   Pagination,
+  type SortDescriptor,
   Spinner,
   Table,
   TableBody,
@@ -9,7 +10,6 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  type SortDescriptor,
 } from '@heroui/react';
 import {
   defaultPageSize,
