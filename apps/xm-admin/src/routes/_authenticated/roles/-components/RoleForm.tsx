@@ -21,7 +21,7 @@ const RoleForm = ({ onSave, isPending, defaultValues }: Props) => {
   };
 
   return (
-    <Form className="w-full max-w-xl" onSubmit={onSubmit}>
+    <Form className="w-full max-w-xl gap-4" onSubmit={onSubmit}>
       <Input
         isRequired
         className="max-w-xs"

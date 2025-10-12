@@ -12,8 +12,8 @@ model AdminUser {
   id        String    @id @default(cuid())
   username  String    @unique
   password  String
-  mobile    String    @unique
-  email     String    @unique
+  mobile    String
+  email     String
   status    Int       @default(1)
   roleId    String    @map("role_id")
   role      AdminRole @relation(fields: [roleId], references: [id])

@@ -1,8 +1,8 @@
 import type { TokenPayload } from '@repo/admin-api-types';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
-import md5 from 'md5';
 import { findAdminUserByUsername } from './admin-user-service.js';
+import { encryptPassword } from '../utils/password-util.js';
 
 export const issuer = 'admin-api';
 
@@ -15,7 +15,8 @@ export const adminLogin = async (username: string, password: string) => {
     });
   }
 
-  const encryptedPassword = md5(`${password}@${adminUser.username}`);
+  const encryptedPassword = encryptPassword(password, adminUser.username);
+
   if (encryptedPassword !== adminUser.password) {
     console.log('密码错误');
     throw new HTTPException(401, {

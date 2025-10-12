@@ -22,8 +22,6 @@ export const paginationRoles = async (query: PaginationRequest) => {
   const orderDirection = query.orderDirection ?? 'descending';
   const orderDirectionValue = orderDirection === 'ascending' ? 'asc' : 'desc';
 
-  console.log(orderBy, orderDirectionValue);
-
   const roles = await prisma.adminRole.findMany({
     skip: (query.page - 1) * query.pageSize,
     take: query.pageSize,
@@ -73,7 +71,20 @@ export const editRole = async (
 };
 
 export const deleteRole = async (id: string) => {
+  const users = await prisma.adminUser.findMany({
+    where: { roleId: id },
+  });
+  if (users.length > 0) {
+    throw new HTTPException(400, {
+      message: '角色下有管理员，不能删除',
+    });
+  }
+
   return prisma.adminRole.delete({
     where: { id },
   });
+};
+
+export const allRoles = async () => {
+  return prisma.adminRole.findMany();
 };

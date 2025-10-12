@@ -6,13 +6,13 @@ const menus = [
     items: [
       {
         label: '管理员列表',
-        key: 'admin_list',
-        path: '/admin/list',
+        key: 'user_list',
+        path: '/users',
       },
       {
         label: '增加管理员',
-        key: 'add_admin',
-        path: '/admin/add',
+        key: 'add_user',
+        path: '/users/add',
       },
     ],
   },

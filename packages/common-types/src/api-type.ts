@@ -32,3 +32,8 @@ export type PaginationResponse<T> = {
 export type ApiError = {
   message: string;
 };
+
+export type SelectOption = {
+  label: string;
+  key: string;
+};

@@ -5,11 +5,12 @@ import {
   editRoleRequestSchema,
   type GetRoleResponse,
 } from '@repo/admin-api-types';
-import { paginationRequestSchema } from '@repo/common-types';
+import { paginationRequestSchema, type SelectOption } from '@repo/common-types';
 import { Hono } from 'hono';
 import { validator } from 'hono/validator';
 import { z } from 'zod';
 import {
+  allRoles,
   createRole,
   deleteRole,
   editRole,
@@ -61,6 +62,15 @@ roleHandler.get(
     return c.json(await paginationRoles(query));
   },
 );
+
+roleHandler.get('/options', async (c) => {
+  const role = await allRoles();
+  const options = role.map((role) => ({
+    label: role.name,
+    key: role.id,
+  }));
+  return c.json(options as SelectOption[]);
+});
 
 roleHandler.get('/:id', async (c) => {
   const { id } = c.req.param();
