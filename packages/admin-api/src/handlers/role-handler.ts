@@ -11,6 +11,7 @@ import { validator } from 'hono/validator';
 import { z } from 'zod';
 import {
   createRole,
+  deleteRole,
   editRole,
   getRole,
   paginationRoles,
@@ -97,5 +98,11 @@ roleHandler.put(
     } as EditRoleResponse);
   },
 );
+
+roleHandler.delete('/:id', async (c) => {
+  const { id } = c.req.param();
+  await deleteRole(id);
+  return c.json({});
+});
 
 export default roleHandler;

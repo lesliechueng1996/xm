@@ -51,3 +51,10 @@ export const put = async (
 ) => {
   return sendRequest(url, { ...options, method: 'PUT' });
 };
+
+export const del = async (
+  url: string,
+  options?: Omit<Parameters<typeof sendRequest>[1], 'method'>,
+) => {
+  return sendRequest(url, { ...options, method: 'DELETE' });
+};

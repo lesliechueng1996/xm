@@ -9,6 +9,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  type SortDescriptor,
 } from '@heroui/react';
 import {
   defaultPageSize,
@@ -22,6 +23,9 @@ export type Column<T extends BaseItem> = {
   key: string;
   label: string;
   render?: (item: T) => ReactNode;
+  allowsSorting?: boolean;
+  isDefaultSorting?: boolean;
+  defaultSortDirection?: 'ascending' | 'descending';
 };
 
 type BaseItem = {
@@ -44,11 +48,29 @@ const DataTable = <T extends BaseItem>({
   const queryKeys = Array.isArray(queryKey) ? queryKey : [queryKey];
 
   const [page, setPage] = useState(1);
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>(() => {
+    const defaultSorting = columns.find((column) => column.isDefaultSorting);
+    return {
+      column: defaultSorting?.key ?? '',
+      direction: defaultSorting?.defaultSortDirection ?? 'ascending',
+    };
+  });
 
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useQuery({
-      queryKey: [...queryKeys, page],
-      queryFn: () => queryFn({ page, pageSize: defaultPageSize }),
+      queryKey: [
+        ...queryKeys,
+        page,
+        sortDescriptor.column,
+        sortDescriptor.direction,
+      ],
+      queryFn: () =>
+        queryFn({
+          page,
+          pageSize: defaultPageSize,
+          orderBy: sortDescriptor.column as string,
+          orderDirection: sortDescriptor.direction,
+        }),
       placeholderData: keepPreviousData,
     });
 
@@ -70,6 +92,10 @@ const DataTable = <T extends BaseItem>({
     }
   }, [isError, error]);
 
+  const handleSortChange = (sortDescriptor: SortDescriptor) => {
+    setSortDescriptor(sortDescriptor);
+  };
+
   const renderCell = (item: T, columnKey: string) => {
     const column = columns.find((column) => column.key === columnKey);
     if (column?.render) {
@@ -80,10 +106,16 @@ const DataTable = <T extends BaseItem>({
 
   return (
     <Table
+      classNames={{
+        base: 'h-full',
+        wrapper: 'h-full',
+        table: 'flex-grow overflow-y-auto',
+        tr: 'h-14',
+      }}
       aria-label={description}
       bottomContent={
         pages > 0 ? (
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center shrink-0">
             <Pagination
               isCompact
               showControls
@@ -97,16 +129,21 @@ const DataTable = <T extends BaseItem>({
           </div>
         ) : null
       }
+      sortDescriptor={sortDescriptor}
+      onSortChange={handleSortChange}
     >
       <TableHeader>
         {columns.map((column) => (
-          <TableColumn key={column.key}>{column.label}</TableColumn>
+          <TableColumn key={column.key} allowsSorting={column.allowsSorting}>
+            {column.label}
+          </TableColumn>
         ))}
       </TableHeader>
       <TableBody
         items={data?.results ?? []}
         loadingContent={<Spinner />}
         loadingState={loadingState}
+        emptyContent="暂无数据"
       >
         {(item) => (
           <TableRow key={item?.id}>

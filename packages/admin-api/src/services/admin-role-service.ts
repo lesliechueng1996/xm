@@ -18,12 +18,17 @@ export const createRole = async (
 };
 
 export const paginationRoles = async (query: PaginationRequest) => {
+  const orderBy = query.orderBy || 'createdAt';
+  const orderDirection = query.orderDirection ?? 'descending';
+  const orderDirectionValue = orderDirection === 'ascending' ? 'asc' : 'desc';
+
+  console.log(orderBy, orderDirectionValue);
+
   const roles = await prisma.adminRole.findMany({
     skip: (query.page - 1) * query.pageSize,
     take: query.pageSize,
     orderBy: {
-      [query.orderBy ?? 'createdAt']:
-        query.orderDirection === 'asc' ? 'asc' : 'desc',
+      [orderBy]: orderDirectionValue,
     },
   });
 
@@ -39,6 +44,8 @@ export const paginationRoles = async (query: PaginationRequest) => {
     })),
     total,
     query,
+    orderBy,
+    orderDirection,
   );
 };
 
@@ -62,5 +69,11 @@ export const editRole = async (
   return prisma.adminRole.update({
     where: { id },
     data: { name, description },
+  });
+};
+
+export const deleteRole = async (id: string) => {
+  return prisma.adminRole.delete({
+    where: { id },
   });
 };

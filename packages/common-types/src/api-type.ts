@@ -14,7 +14,7 @@ export const paginationRequestSchema = z.object({
     .max(100)
     .transform((val) => parseInt(val, 10)),
   orderBy: z.string().optional(),
-  orderDirection: z.enum(['asc', 'desc']).optional(),
+  orderDirection: z.enum(['ascending', 'descending']).optional(),
 });
 
 export type PaginationRequest = z.infer<typeof paginationRequestSchema>;
@@ -25,6 +25,8 @@ export type PaginationResponse<T> = {
   page: number;
   pageSize: number;
   totalPages: number;
+  orderBy: string;
+  orderDirection: 'ascending' | 'descending';
 };
 
 export type ApiError = {

@@ -16,34 +16,32 @@ const RoleIdPage = () => {
   });
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: FormType) =>
-      editRole(roleId, data.name, data.description),
-  });
-
-  const onSave = async (data: FormType) => {
-    try {
-      await mutateAsync(data);
+    mutationFn: async (data: FormType) => {
+      await editRole(roleId, data.name, data.description);
+    },
+    onSuccess: () => {
       addToast({
         title: '成功',
         description: '编辑角色成功',
         color: 'success',
       });
       navigate({ to: '/roles' });
-    } catch (error) {
+    },
+    onError: (error) => {
       addToast({
         title: '错误',
         description: (error as Error).message || '编辑角色失败',
         color: 'danger',
       });
-    }
-  };
+    },
+  });
 
   if (isQueryLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <RoleForm onSave={onSave} isPending={isPending} defaultValues={role} />
+    <RoleForm onSave={mutateAsync} isPending={isPending} defaultValues={role} />
   );
 };
 
