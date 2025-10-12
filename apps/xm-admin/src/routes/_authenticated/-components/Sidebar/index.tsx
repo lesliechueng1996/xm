@@ -17,17 +17,17 @@ const menus = [
     ],
   },
   {
-    label: '分类管理',
+    label: '角色管理',
     items: [
       {
-        label: '商品分类列表',
-        key: 'category_list',
-        path: '/category/list',
+        label: '角色列表',
+        key: 'role_list',
+        path: '/roles',
       },
       {
-        label: '增加商品分类',
-        key: 'add_category',
-        path: '/category/add',
+        label: '增加角色',
+        key: 'add_role',
+        path: '/roles/add',
       },
     ],
   },

@@ -21,6 +21,7 @@
   "dependencies": {
     "@repo/admin-api-types": "workspace:*",
     "@repo/database": "workspace:*",
+    "@repo/server-common": "workspace:*",
     "md5": "^2.3.0",
     "svg-captcha": "^1.4.0",
     "zod": "^4.1.12"

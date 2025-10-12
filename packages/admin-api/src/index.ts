@@ -3,6 +3,7 @@ import type { JwtVariables } from 'hono/jwt';
 import { jwt } from 'hono/jwt';
 import z from 'zod';
 import loginHandler from './handlers/login-handler.js';
+import roleHandler from './handlers/role-handler.js';
 import { issuer } from './services/login-service.js';
 
 z.config(z.locales.zhCN());
@@ -30,4 +31,5 @@ adminApi.use(async (c, next) => {
 });
 
 adminApi.route('/login', loginHandler);
+adminApi.route('/roles', roleHandler);
 export default adminApi;

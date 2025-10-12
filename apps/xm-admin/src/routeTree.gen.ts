@@ -12,7 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedRolesIndexRouteImport } from './routes/_authenticated/roles/index'
+import { Route as AuthenticatedRolesAddRouteImport } from './routes/_authenticated/roles/add'
 
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
@@ -28,40 +29,49 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthenticatedRolesIndexRoute = AuthenticatedRolesIndexRouteImport.update({
+  id: '/roles/',
+  path: '/roles/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRolesAddRoute = AuthenticatedRolesAddRouteImport.update({
+  id: '/roles/add',
+  path: '/roles/add',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRouteRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
   '/': typeof AuthenticatedIndexRoute
+  '/roles/add': typeof AuthenticatedRolesAddRoute
+  '/roles': typeof AuthenticatedRolesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRouteRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
   '/': typeof AuthenticatedIndexRoute
+  '/roles/add': typeof AuthenticatedRolesAddRoute
+  '/roles': typeof AuthenticatedRolesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/roles/add': typeof AuthenticatedRolesAddRoute
+  '/_authenticated/roles/': typeof AuthenticatedRolesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/dashboard' | '/'
+  fullPaths: '/login' | '/' | '/roles/add' | '/roles'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/dashboard' | '/'
+  to: '/login' | '/' | '/roles/add' | '/roles'
   id:
     | '__root__'
     | '/_authenticated'
     | '/login'
-    | '/_authenticated/dashboard'
     | '/_authenticated/'
+    | '/_authenticated/roles/add'
+    | '/_authenticated/roles/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -92,24 +102,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+    '/_authenticated/roles/': {
+      id: '/_authenticated/roles/'
+      path: '/roles'
+      fullPath: '/roles'
+      preLoaderRoute: typeof AuthenticatedRolesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/roles/add': {
+      id: '/_authenticated/roles/add'
+      path: '/roles/add'
+      fullPath: '/roles/add'
+      preLoaderRoute: typeof AuthenticatedRolesAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedRolesAddRoute: typeof AuthenticatedRolesAddRoute
+  AuthenticatedRolesIndexRoute: typeof AuthenticatedRolesIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedRolesAddRoute: AuthenticatedRolesAddRoute,
+  AuthenticatedRolesIndexRoute: AuthenticatedRolesIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

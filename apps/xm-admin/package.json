@@ -14,6 +14,7 @@
     "@repo/admin-api-types": "workspace:*",
     "@repo/ui-component": "workspace:*",
     "@tailwindcss/vite": "^4.1.14",
+    "@tanstack/react-query": "^5.90.2",
     "@tanstack/react-router": "^1.132.47",
     "@tanstack/react-router-devtools": "^1.132.51",
     "framer-motion": "^12.23.22",
@@ -21,6 +22,7 @@
     "react-dom": "^19.1.1",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.14",
+    "usehooks-ts": "^3.1.1",
     "zod": "^4.1.12"
   },
   "devDependencies": {

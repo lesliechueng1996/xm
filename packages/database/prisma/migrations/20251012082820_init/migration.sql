@@ -14,6 +14,18 @@ CREATE TABLE "t_admin_user" (
     CONSTRAINT "t_admin_user_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "t_admin_role" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
+    "status" INTEGER NOT NULL DEFAULT 1,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "t_admin_role_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "t_admin_user_username_key" ON "t_admin_user"("username");
 
@@ -22,3 +34,6 @@ CREATE UNIQUE INDEX "t_admin_user_mobile_key" ON "t_admin_user"("mobile");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "t_admin_user_email_key" ON "t_admin_user"("email");
+
+-- AddForeignKey
+ALTER TABLE "t_admin_user" ADD CONSTRAINT "t_admin_user_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "t_admin_role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

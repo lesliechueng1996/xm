@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { Link, useLocation } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 
 type Props = {
   label: string;
@@ -12,6 +13,14 @@ type Props = {
 
 const Menu = ({ label, items }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  useEffect(() => {
+    if (items.some((item) => item.path === pathname)) {
+      setIsOpen(true);
+    }
+  }, [pathname, items]);
 
   return (
     <div className="text-sm">
@@ -36,9 +45,14 @@ const Menu = ({ label, items }: Props) => {
           <div className="px-4 pb-2">
             {items.map((item) => (
               <div key={item.key} className="border-l border-divider px-2">
-                <div className="px-2 py-1 hover:bg-default-200/50 cursor-pointer rounded-md">
+                <Link
+                  to={item.path}
+                  className={`block px-2 py-1 hover:bg-default-200/50 cursor-pointer rounded-md ${
+                    pathname === item.path ? 'bg-default-200/50' : ''
+                  }`}
+                >
                   <p>{item.label}</p>
-                </div>
+                </Link>
               </div>
             ))}
           </div>

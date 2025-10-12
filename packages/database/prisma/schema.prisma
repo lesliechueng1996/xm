@@ -9,16 +9,30 @@ datasource db {
 }
 
 model AdminUser {
-  id        String   @id @default(cuid())
-  username  String   @unique
+  id        String    @id @default(cuid())
+  username  String    @unique
   password  String
-  mobile    String   @unique
-  email     String   @unique
-  status    Int      @default(1)
-  roleId    String   @map("role_id")
-  isSuper   Int      @default(0) @map("is_super")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  mobile    String    @unique
+  email     String    @unique
+  status    Int       @default(1)
+  roleId    String    @map("role_id")
+  role      AdminRole @relation(fields: [roleId], references: [id])
+  isSuper   Int       @default(0) @map("is_super")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
 
   @@map("t_admin_user")
+}
+
+model AdminRole {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      Int      @default(1)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  users AdminUser[]
+
+  @@map("t_admin_role")
 }
