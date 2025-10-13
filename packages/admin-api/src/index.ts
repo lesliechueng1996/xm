@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import type { JwtVariables } from 'hono/jwt';
 import { jwt } from 'hono/jwt';
 import z from 'zod';
+import accessHandler from './handlers/access-handler.js';
 import loginHandler from './handlers/login-handler.js';
 import roleHandler from './handlers/role-handler.js';
 import userHandler from './handlers/user-handler.js';
@@ -34,4 +35,5 @@ adminApi.use(async (c, next) => {
 adminApi.route('/login', loginHandler);
 adminApi.route('/users', userHandler);
 adminApi.route('/roles', roleHandler);
+adminApi.route('/access', accessHandler);
 export default adminApi;

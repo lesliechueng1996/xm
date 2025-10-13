@@ -32,17 +32,17 @@ const menus = [
     ],
   },
   {
-    label: '商品管理',
+    label: '权限管理',
     items: [
       {
-        label: '商品列表',
-        key: 'product_list',
-        path: '/product/list',
+        label: '权限列表',
+        key: 'access_list',
+        path: '/access/list',
       },
       {
-        label: '增加商品',
-        key: 'add_product',
-        path: '/product/add',
+        label: '增加权限',
+        key: 'add_access',
+        path: '/access/add',
       },
     ],
   },

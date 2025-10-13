@@ -36,3 +36,19 @@ model AdminRole {
 
   @@map("t_admin_role")
 }
+
+model AdminAccess {
+  id          String   @id @default(cuid())
+  accessName  String   @map("access_name")
+  // 1: 模块，2: 菜单，3: 操作
+  type        Int
+  url         String?
+  parentId    String?  @map("parent_id")
+  sort        Int      @default(100)
+  description String?
+  status      Int      @default(1)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("t_admin_access")
+}

@@ -79,21 +79,23 @@ const UserForm = ({ onSave, isPending, defaultValues, isEdit }: Props) => {
         maxLength={255}
         defaultValue={defaultValues?.email}
       />
-      <Select
-        name="roleId"
-        isRequired
-        errorMessage="管理员角色不能为空"
-        className="max-w-xs"
-        labelPlacement="outside"
-        items={roleOptions ?? []}
-        label="管理员角色"
-        placeholder="选择管理员角色"
-        defaultSelectedKeys={
-          defaultValues?.roleId ? [defaultValues.roleId] : []
-        }
-      >
-        {(role) => <SelectItem>{role.label}</SelectItem>}
-      </Select>
+      {roleOptions && (
+        <Select
+          name="roleId"
+          isRequired
+          errorMessage="管理员角色不能为空"
+          className="max-w-xs"
+          labelPlacement="outside"
+          items={roleOptions}
+          label="管理员角色"
+          placeholder="选择管理员角色"
+          defaultSelectedKeys={
+            defaultValues?.roleId ? [defaultValues.roleId] : []
+          }
+        >
+          {(role) => <SelectItem>{role.label}</SelectItem>}
+        </Select>
+      )}
       <Button type="submit" variant="bordered" isLoading={isPending}>
         提交
       </Button>
