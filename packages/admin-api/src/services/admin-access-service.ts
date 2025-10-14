@@ -5,7 +5,7 @@ import type {
   GetAllAccessesResponse,
 } from '@repo/admin-api-types';
 import { AdminAccessType, type SelectOption } from '@repo/common-types';
-import { prisma, type AdminAccess } from '@repo/database';
+import { type AdminAccess, prisma } from '@repo/database';
 import { HTTPException } from 'hono/http-exception';
 
 const isParentIdValid = async (parentId: string, selfType: AdminAccessType) => {

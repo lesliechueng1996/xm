@@ -1,17 +1,16 @@
+import { addToast } from '@heroui/react';
+import type { EditAccessRequest } from '@repo/admin-api-types';
+import { AdminAccessType } from '@repo/common-types';
+import Loading from '@repo/ui-component/Loading';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
-import { getAccess } from '@/apis/access-api';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import Loading from '@repo/ui-component/Loading';
-import type { EditAccessRequest } from '@repo/admin-api-types';
-import { addToast } from '@heroui/react';
-import { editAccess } from '@/apis/access-api';
+import { editAccess, getAccess } from '@/apis/access-api';
 import AccessForm, {
   type MenuFormType,
   type ModuleFormType,
   type OperationFormType,
 } from './-components/AccessForm';
-import { AdminAccessType } from '@repo/common-types';
 
 const EditAccessPage = () => {
   const navigate = useNavigate();

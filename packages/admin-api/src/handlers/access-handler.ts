@@ -1,7 +1,7 @@
 import {
   type CreateAccessResponse,
-  type EditAccessResponse,
   createAccessRequestSchema,
+  type EditAccessResponse,
   editAccessRequestSchema,
   getAccessOptionsRequestSchema,
 } from '@repo/admin-api-types';
