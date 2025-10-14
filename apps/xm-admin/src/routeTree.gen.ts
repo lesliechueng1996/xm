@@ -14,12 +14,12 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedRolesIndexRouteImport } from './routes/_authenticated/roles/index'
-import { Route as AuthenticatedAccessIndexRouteImport } from './routes/_authenticated/access/index'
+import { Route as AuthenticatedAccessesIndexRouteImport } from './routes/_authenticated/accesses/index'
 import { Route as AuthenticatedUsersAddRouteImport } from './routes/_authenticated/users/add'
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated/users/$userId'
 import { Route as AuthenticatedRolesAddRouteImport } from './routes/_authenticated/roles/add'
 import { Route as AuthenticatedRolesRoleIdRouteImport } from './routes/_authenticated/roles/$roleId'
-import { Route as AuthenticatedAccessAddRouteImport } from './routes/_authenticated/access/add'
+import { Route as AuthenticatedAccessesAddRouteImport } from './routes/_authenticated/accesses/add'
 
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
@@ -45,10 +45,10 @@ const AuthenticatedRolesIndexRoute = AuthenticatedRolesIndexRouteImport.update({
   path: '/roles/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedAccessIndexRoute =
-  AuthenticatedAccessIndexRouteImport.update({
-    id: '/access/',
-    path: '/access/',
+const AuthenticatedAccessesIndexRoute =
+  AuthenticatedAccessesIndexRouteImport.update({
+    id: '/accesses/',
+    path: '/accesses/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedUsersAddRoute = AuthenticatedUsersAddRouteImport.update({
@@ -73,33 +73,34 @@ const AuthenticatedRolesRoleIdRoute =
     path: '/roles/$roleId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAccessAddRoute = AuthenticatedAccessAddRouteImport.update({
-  id: '/access/add',
-  path: '/access/add',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+const AuthenticatedAccessesAddRoute =
+  AuthenticatedAccessesAddRouteImport.update({
+    id: '/accesses/add',
+    path: '/accesses/add',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRouteRoute
   '/': typeof AuthenticatedIndexRoute
-  '/access/add': typeof AuthenticatedAccessAddRoute
+  '/accesses/add': typeof AuthenticatedAccessesAddRoute
   '/roles/$roleId': typeof AuthenticatedRolesRoleIdRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/users/add': typeof AuthenticatedUsersAddRoute
-  '/access': typeof AuthenticatedAccessIndexRoute
+  '/accesses': typeof AuthenticatedAccessesIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRouteRoute
   '/': typeof AuthenticatedIndexRoute
-  '/access/add': typeof AuthenticatedAccessAddRoute
+  '/accesses/add': typeof AuthenticatedAccessesAddRoute
   '/roles/$roleId': typeof AuthenticatedRolesRoleIdRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/users/add': typeof AuthenticatedUsersAddRoute
-  '/access': typeof AuthenticatedAccessIndexRoute
+  '/accesses': typeof AuthenticatedAccessesIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
@@ -108,12 +109,12 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/access/add': typeof AuthenticatedAccessAddRoute
+  '/_authenticated/accesses/add': typeof AuthenticatedAccessesAddRoute
   '/_authenticated/roles/$roleId': typeof AuthenticatedRolesRoleIdRoute
   '/_authenticated/roles/add': typeof AuthenticatedRolesAddRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/_authenticated/users/add': typeof AuthenticatedUsersAddRoute
-  '/_authenticated/access/': typeof AuthenticatedAccessIndexRoute
+  '/_authenticated/accesses/': typeof AuthenticatedAccessesIndexRoute
   '/_authenticated/roles/': typeof AuthenticatedRolesIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
 }
@@ -122,24 +123,24 @@ export interface FileRouteTypes {
   fullPaths:
     | '/login'
     | '/'
-    | '/access/add'
+    | '/accesses/add'
     | '/roles/$roleId'
     | '/roles/add'
     | '/users/$userId'
     | '/users/add'
-    | '/access'
+    | '/accesses'
     | '/roles'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/'
-    | '/access/add'
+    | '/accesses/add'
     | '/roles/$roleId'
     | '/roles/add'
     | '/users/$userId'
     | '/users/add'
-    | '/access'
+    | '/accesses'
     | '/roles'
     | '/users'
   id:
@@ -147,12 +148,12 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login'
     | '/_authenticated/'
-    | '/_authenticated/access/add'
+    | '/_authenticated/accesses/add'
     | '/_authenticated/roles/$roleId'
     | '/_authenticated/roles/add'
     | '/_authenticated/users/$userId'
     | '/_authenticated/users/add'
-    | '/_authenticated/access/'
+    | '/_authenticated/accesses/'
     | '/_authenticated/roles/'
     | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
@@ -199,11 +200,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRolesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/access/': {
-      id: '/_authenticated/access/'
-      path: '/access'
-      fullPath: '/access'
-      preLoaderRoute: typeof AuthenticatedAccessIndexRouteImport
+    '/_authenticated/accesses/': {
+      id: '/_authenticated/accesses/'
+      path: '/accesses'
+      fullPath: '/accesses'
+      preLoaderRoute: typeof AuthenticatedAccessesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/users/add': {
@@ -234,11 +235,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRolesRoleIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/access/add': {
-      id: '/_authenticated/access/add'
-      path: '/access/add'
-      fullPath: '/access/add'
-      preLoaderRoute: typeof AuthenticatedAccessAddRouteImport
+    '/_authenticated/accesses/add': {
+      id: '/_authenticated/accesses/add'
+      path: '/accesses/add'
+      fullPath: '/accesses/add'
+      preLoaderRoute: typeof AuthenticatedAccessesAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -246,24 +247,24 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedAccessAddRoute: typeof AuthenticatedAccessAddRoute
+  AuthenticatedAccessesAddRoute: typeof AuthenticatedAccessesAddRoute
   AuthenticatedRolesRoleIdRoute: typeof AuthenticatedRolesRoleIdRoute
   AuthenticatedRolesAddRoute: typeof AuthenticatedRolesAddRoute
   AuthenticatedUsersUserIdRoute: typeof AuthenticatedUsersUserIdRoute
   AuthenticatedUsersAddRoute: typeof AuthenticatedUsersAddRoute
-  AuthenticatedAccessIndexRoute: typeof AuthenticatedAccessIndexRoute
+  AuthenticatedAccessesIndexRoute: typeof AuthenticatedAccessesIndexRoute
   AuthenticatedRolesIndexRoute: typeof AuthenticatedRolesIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedAccessAddRoute: AuthenticatedAccessAddRoute,
+  AuthenticatedAccessesAddRoute: AuthenticatedAccessesAddRoute,
   AuthenticatedRolesRoleIdRoute: AuthenticatedRolesRoleIdRoute,
   AuthenticatedRolesAddRoute: AuthenticatedRolesAddRoute,
   AuthenticatedUsersUserIdRoute: AuthenticatedUsersUserIdRoute,
   AuthenticatedUsersAddRoute: AuthenticatedUsersAddRoute,
-  AuthenticatedAccessIndexRoute: AuthenticatedAccessIndexRoute,
+  AuthenticatedAccessesIndexRoute: AuthenticatedAccessesIndexRoute,
   AuthenticatedRolesIndexRoute: AuthenticatedRolesIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
 }

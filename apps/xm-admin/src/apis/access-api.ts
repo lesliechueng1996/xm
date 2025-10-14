@@ -1,6 +1,7 @@
 import type {
   CreateAccessRequest,
   CreateAccessResponse,
+  GetAllAccessesResponse,
 } from '@repo/admin-api-types';
 import { AdminAccessType, type SelectOption } from '@repo/common-types';
 import { get, post } from './http';
@@ -23,4 +24,8 @@ export const getAccessOptions = async (type: AdminAccessType) => {
     );
   }
   return [];
+};
+
+export const getAllAccesses = async () => {
+  return get<GetAllAccessesResponse>('/admin/access');
 };

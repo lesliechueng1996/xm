@@ -10,6 +10,7 @@ import { z } from 'zod';
 import {
   createAccess,
   getAccessOptions,
+  getAllAccesses,
 } from '../services/admin-access-service.js';
 
 const accessHandler = new Hono();
@@ -88,5 +89,10 @@ accessHandler.get(
     return c.json(options);
   },
 );
+
+accessHandler.get('/', async (c) => {
+  const accesses = await getAllAccesses();
+  return c.json(accesses);
+});
 
 export default accessHandler;

@@ -33,3 +33,17 @@ export const getAccessOptionsRequestSchema = z.object({
 export type GetAccessOptionsRequest = z.infer<
   typeof getAccessOptionsRequestSchema
 >;
+
+export type GetAllAccessesResponse = {
+  id: string;
+  moduleName: string;
+  menuName: string;
+  operationName: string;
+  type: AdminAccessType;
+  url: string | null;
+  parentId: string | null;
+  sort: number;
+  description: string;
+  status: number;
+  createdAt: number;
+}[];

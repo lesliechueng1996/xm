@@ -107,11 +107,10 @@ const DataTable = <T extends BaseItem>({
   return (
     <Table
       classNames={{
-        base: 'h-full',
-        wrapper: 'h-full',
-        table: 'flex-grow overflow-y-auto',
-        tr: 'h-14',
+        base: 'h-full overflow-y-scroll p-1',
       }}
+      isStriped
+      isHeaderSticky
       aria-label={description}
       bottomContent={
         pages > 0 ? (

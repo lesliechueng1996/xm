@@ -16,7 +16,7 @@ const AddAccessPage = () => {
         description: '创建权限成功',
         color: 'success',
       });
-      navigate({ to: '/access' });
+      navigate({ to: '/accesses' });
     },
     onError: (error) => {
       addToast({
@@ -30,6 +30,6 @@ const AddAccessPage = () => {
   return <AccessForm onSave={mutate} isPending={isPending} />;
 };
 
-export const Route = createFileRoute('/_authenticated/access/add')({
+export const Route = createFileRoute('/_authenticated/accesses/add')({
   component: AddAccessPage,
 });

@@ -1,6 +1,9 @@
-import type { CreateAccessRequest } from '@repo/admin-api-types';
+import type {
+  CreateAccessRequest,
+  GetAllAccessesResponse,
+} from '@repo/admin-api-types';
 import { AdminAccessType, type SelectOption } from '@repo/common-types';
-import { prisma } from '@repo/database';
+import { prisma, type AdminAccess } from '@repo/database';
 import { HTTPException } from 'hono/http-exception';
 
 const isParentIdValid = async (parentId: string, selfType: AdminAccessType) => {
@@ -62,4 +65,81 @@ export const getAccessOptions = async (
     label: access.accessName,
     key: access.id,
   }));
+};
+
+type AccessTreeNode = AdminAccess & {
+  children: AccessTreeNode[];
+};
+
+const buildAccessTree = (accesses: AdminAccess[]) => {
+  const tree: AccessTreeNode[] = [];
+  const modules = accesses
+    .filter((access) => access.type === AdminAccessType.MODULE)
+    .sort((a, b) => a.sort - b.sort);
+  const menus = accesses
+    .filter((access) => access.type === AdminAccessType.MENU)
+    .sort((a, b) => a.sort - b.sort);
+  const operations = accesses
+    .filter((access) => access.type === AdminAccessType.OPERATION)
+    .sort((a, b) => a.sort - b.sort);
+  for (const module of modules) {
+    const moduleMenus = menus.filter((menu) => menu.parentId === module.id);
+    const moduleNode: AccessTreeNode = {
+      ...module,
+      children: [],
+    };
+    for (const menu of moduleMenus) {
+      const menuOperations = operations.filter(
+        (operation) => operation.parentId === menu.id,
+      );
+      const menuNode: AccessTreeNode = {
+        ...menu,
+        children: menuOperations.map((operation) => ({
+          ...operation,
+          children: [],
+        })),
+      };
+      moduleNode.children.push(menuNode);
+    }
+    tree.push(moduleNode);
+  }
+  return tree;
+};
+
+export const getAllAccesses = async (): Promise<GetAllAccessesResponse> => {
+  const accesses = await prisma.adminAccess.findMany();
+  const tree = buildAccessTree(accesses);
+
+  const buildResponseItem = (
+    node: AccessTreeNode,
+  ): GetAllAccessesResponse[number] => {
+    return {
+      id: node.id,
+      moduleName: node.type === AdminAccessType.MODULE ? node.accessName : '-',
+      menuName: node.type === AdminAccessType.MENU ? node.accessName : '-',
+      operationName:
+        node.type === AdminAccessType.OPERATION ? node.accessName : '-',
+      type: node.type,
+      url: node.url ?? null,
+      parentId: node.parentId ?? null,
+      sort: node.sort,
+      description: node.description ?? '',
+      status: node.status,
+      createdAt: node.createdAt.getTime(),
+    };
+  };
+
+  const result: GetAllAccessesResponse = [];
+
+  const buildResponse = (nodes: AccessTreeNode[]) => {
+    for (const node of nodes) {
+      result.push(buildResponseItem(node));
+      if (node.children.length > 0) {
+        buildResponse(node.children);
+      }
+    }
+  };
+
+  buildResponse(tree);
+  return result;
 };

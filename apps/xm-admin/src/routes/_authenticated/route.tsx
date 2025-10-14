@@ -9,7 +9,7 @@ const AuthenticatedLayout = () => {
       <Header />
       <div className="flex-grow flex">
         <Sidebar />
-        <main className="flex-grow p-4">
+        <main className="flex-grow p-4 overflow-auto h-[calc(100vh-4rem)]">
           <Outlet />
         </main>
       </div>

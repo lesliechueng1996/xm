@@ -31,7 +31,7 @@ const Header = () => {
       position="static"
       maxWidth="full"
       isBordered
-      className="flex-shrink-0"
+      className="flex-shrink-0 h-16"
     >
       <NavbarContent>
         <NavbarBrand>

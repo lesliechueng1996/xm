@@ -37,12 +37,12 @@ const menus = [
       {
         label: '权限列表',
         key: 'access_list',
-        path: '/access/list',
+        path: '/accesses',
       },
       {
         label: '增加权限',
         key: 'add_access',
-        path: '/access/add',
+        path: '/accesses/add',
       },
     ],
   },
