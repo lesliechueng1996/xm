@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { getAllAccesses } from '@/apis/access-api';
+import { deleteAccess, getAllAccesses } from '@/apis/access-api';
 import {
   Chip,
   Button,
@@ -10,6 +10,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  addToast,
 } from '@heroui/react';
 import { formatDate } from '@/utils/date-util';
 import { AdminAccessType } from '@repo/common-types';
@@ -39,6 +40,27 @@ const AccessesPage = () => {
     queryFn: () => getAllAccesses(),
   });
   useDocumentTitle('权限列表');
+  const queryClient = useQueryClient();
+
+  const { mutate: delAccess } = useMutation({
+    mutationFn: (id: string) => deleteAccess(id),
+    onSuccess: () => {
+      addToast({
+        title: '成功',
+        description: '删除权限成功',
+        color: 'success',
+      });
+      queryClient.invalidateQueries({ queryKey: ['accesses'] });
+    },
+    onError: (error) => {
+      addToast({
+        title: '错误',
+        description: (error as Error).message || '删除权限失败',
+        color: 'danger',
+      });
+    },
+  });
+
   return (
     <Table
       aria-label="权限列表"
@@ -91,8 +113,7 @@ const AccessesPage = () => {
                   <PencilSquareIcon className="size-4" />
                 </Button>
                 <ConfirmDeleteBtn
-                  // onConfirm={() => delRole(item.id)}
-                  onConfirm={() => {}}
+                  onConfirm={() => delAccess(item.id)}
                   label="删除权限"
                 />
               </div>

@@ -11,6 +11,7 @@ import { validator } from 'hono/validator';
 import { z } from 'zod';
 import {
   createAccess,
+  deleteAccess,
   editAccess,
   getAccess,
   getAccessOptions,
@@ -123,5 +124,11 @@ accessHandler.put(
     } as EditAccessResponse);
   },
 );
+
+accessHandler.delete('/:id', async (c) => {
+  const { id } = c.req.param();
+  await deleteAccess(id);
+  return c.json({});
+});
 
 export default accessHandler;

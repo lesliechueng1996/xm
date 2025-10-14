@@ -180,3 +180,19 @@ export const editAccess = async (id: string, data: EditAccessRequest) => {
     },
   });
 };
+
+export const deleteAccess = async (id: string) => {
+  const childrenCount = await prisma.adminAccess.count({
+    where: {
+      parentId: id,
+    },
+  });
+  if (childrenCount > 0) {
+    throw new HTTPException(400, {
+      message: '权限下有子权限，不能删除',
+    });
+  }
+  return prisma.adminAccess.delete({
+    where: { id },
+  });
+};
