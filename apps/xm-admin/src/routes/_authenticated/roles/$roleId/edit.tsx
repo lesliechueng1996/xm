@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editRole, getRole } from '@/apis/role-api';
-import RoleForm, { type FormType } from './-components/RoleForm';
+import RoleForm, { type FormType } from '../-components/RoleForm';
 import Loading from '@repo/ui-component/Loading';
 
 const RoleIdPage = () => {
@@ -46,6 +46,6 @@ const RoleIdPage = () => {
   );
 };
 
-export const Route = createFileRoute('/_authenticated/roles/$roleId')({
+export const Route = createFileRoute('/_authenticated/roles/$roleId/edit')({
   component: RoleIdPage,
 });

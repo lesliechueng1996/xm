@@ -1,4 +1,4 @@
-import { PencilSquareIcon } from '@heroicons/react/24/solid';
+import { Bars3Icon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { addToast, Button } from '@heroui/react';
 import type { PaginationRolesResponse } from '@repo/admin-api-types';
 import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
@@ -59,11 +59,27 @@ const RolesPage = () => {
         <div className="flex gap-2">
           <Button
             isIconOnly
+            aria-label="编辑角色权限"
+            color="primary"
+            onPress={() =>
+              navigate({
+                to: '/roles/$roleId/access',
+                params: { roleId: item.id },
+              })
+            }
+          >
+            <Bars3Icon className="size-4" />
+          </Button>
+          <Button
+            isIconOnly
             aria-label="编辑角色"
             variant="faded"
             color="secondary"
             onPress={() =>
-              navigate({ to: '/roles/$roleId', params: { roleId: item.id } })
+              navigate({
+                to: '/roles/$roleId/edit',
+                params: { roleId: item.id },
+              })
             }
           >
             <PencilSquareIcon className="size-4" />

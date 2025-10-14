@@ -10,6 +10,7 @@ import { Hono } from 'hono';
 import { validator } from 'hono/validator';
 import { z } from 'zod';
 import {
+  buildAccessTree,
   createAccess,
   deleteAccess,
   editAccess,
@@ -94,6 +95,11 @@ accessHandler.get(
     return c.json(options);
   },
 );
+
+accessHandler.get('/tree', async (c) => {
+  const tree = await buildAccessTree();
+  return c.json(tree);
+});
 
 accessHandler.get('/', async (c) => {
   const accesses = await getAllAccesses();

@@ -73,7 +73,9 @@ type AccessTreeNode = AdminAccess & {
   children: AccessTreeNode[];
 };
 
-const buildAccessTree = (accesses: AdminAccess[]) => {
+export const buildAccessTree = async () => {
+  const accesses = await prisma.adminAccess.findMany();
+
   const tree: AccessTreeNode[] = [];
   const modules = accesses
     .filter((access) => access.type === AdminAccessType.MODULE)
@@ -109,8 +111,7 @@ const buildAccessTree = (accesses: AdminAccess[]) => {
 };
 
 export const getAllAccesses = async (): Promise<GetAllAccessesResponse> => {
-  const accesses = await prisma.adminAccess.findMany();
-  const tree = buildAccessTree(accesses);
+  const tree = await buildAccessTree();
 
   const buildResponseItem = (
     node: AccessTreeNode,
@@ -192,7 +193,11 @@ export const deleteAccess = async (id: string) => {
       message: '权限下有子权限，不能删除',
     });
   }
-  return prisma.adminAccess.delete({
+  const deleteAccess = prisma.adminAccess.delete({
     where: { id },
   });
+  const deleteRoleAccess = prisma.rolesOnAccesses.deleteMany({
+    where: { accessId: id },
+  });
+  return prisma.$transaction([deleteAccess, deleteRoleAccess]);
 };

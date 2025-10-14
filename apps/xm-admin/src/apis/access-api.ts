@@ -4,6 +4,7 @@ import type {
   EditAccessRequest,
   EditAccessResponse,
   GetAccessResponse,
+  GetAccessTreeResponse,
   GetAllAccessesResponse,
 } from '@repo/admin-api-types';
 import { AdminAccessType, type SelectOption } from '@repo/common-types';
@@ -45,4 +46,8 @@ export const editAccess = async (id: string, data: EditAccessRequest) => {
 
 export const deleteAccess = async (id: string) => {
   return del(`/admin/access/${id}`);
+};
+
+export const getAccessTree = async () => {
+  return get<GetAccessTreeResponse>(`/admin/access/tree`);
 };

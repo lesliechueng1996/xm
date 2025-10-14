@@ -80,3 +80,15 @@ export type EditAccessRequest = z.infer<typeof editAccessRequestSchema>;
 export type EditAccessResponse = {
   id: string;
 };
+
+export type GetAccessTreeResponse = {
+  id: string;
+  accessName: string;
+  type: AdminAccessType;
+  url: string | null;
+  parentId: string | null;
+  sort: number;
+  description: string;
+  status: number;
+  children: GetAccessTreeResponse;
+}[];

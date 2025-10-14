@@ -3,8 +3,11 @@ import type {
   CreateRoleResponse,
   EditRoleRequest,
   EditRoleResponse,
+  GetRoleAccessResponse,
   GetRoleResponse,
   PaginationRolesResponse,
+  SaveRoleAccessRequest,
+  SaveRoleAccessResponse,
 } from '@repo/admin-api-types';
 import type { PaginationRequest, SelectOption } from '@repo/common-types';
 import qs from 'qs';
@@ -56,5 +59,25 @@ export const deleteRole = async (id: string): Promise<void> => {
 
 export const allRoleOptions = async (): Promise<SelectOption[]> => {
   const response = await get<SelectOption[]>('/admin/roles/options');
+  return response;
+};
+
+export const getRoleAccess = async (
+  roleId: string,
+): Promise<GetRoleAccessResponse> => {
+  const response = await get<GetRoleAccessResponse>(
+    `/admin/roles/${roleId}/access`,
+  );
+  return response;
+};
+
+export const saveRoleAccess = async (
+  roleId: string,
+  accessIds: string[],
+): Promise<SaveRoleAccessResponse> => {
+  const response = await post<SaveRoleAccessResponse>(
+    `/admin/roles/${roleId}/access`,
+    { body: { accessIds } as SaveRoleAccessRequest },
+  );
   return response;
 };

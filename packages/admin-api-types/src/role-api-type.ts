@@ -44,3 +44,19 @@ export type GetRoleResponse = {
   description: string;
   createdAt: number;
 };
+
+export type GetRoleAccessResponse = {
+  roleId: string;
+  accessIds: string[];
+};
+
+export const saveRoleAccessRequestSchema = z.object({
+  accessIds: z.array(z.string()),
+});
+
+export type SaveRoleAccessRequest = z.infer<typeof saveRoleAccessRequestSchema>;
+
+export type SaveRoleAccessResponse = {
+  roleId: string;
+  accessIds: string[];
+};

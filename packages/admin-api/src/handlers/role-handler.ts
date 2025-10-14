@@ -4,6 +4,9 @@ import {
   type EditRoleResponse,
   editRoleRequestSchema,
   type GetRoleResponse,
+  type GetRoleAccessResponse,
+  saveRoleAccessRequestSchema,
+  type SaveRoleAccessResponse,
 } from '@repo/admin-api-types';
 import { paginationRequestSchema, type SelectOption } from '@repo/common-types';
 import { Hono } from 'hono';
@@ -15,7 +18,9 @@ import {
   deleteRole,
   editRole,
   getRole,
+  getRoleAccess,
   paginationRoles,
+  saveRoleAccess,
 } from '../services/admin-role-service.js';
 
 const roleHandler = new Hono();
@@ -71,6 +76,35 @@ roleHandler.get('/options', async (c) => {
   }));
   return c.json(options as SelectOption[]);
 });
+
+roleHandler.get('/:id/access', async (c) => {
+  const { id } = c.req.param();
+  const accessIds = await getRoleAccess(id);
+  return c.json({
+    roleId: id,
+    accessIds,
+  } as GetRoleAccessResponse);
+});
+
+roleHandler.post(
+  '/:id/access',
+  validator('json', (value, c) => {
+    const parsed = saveRoleAccessRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(parsed.error, 400);
+    }
+    return parsed.data;
+  }),
+  async (c) => {
+    const { id } = c.req.param();
+    const body = c.req.valid('json');
+    await saveRoleAccess(id, body.accessIds);
+    return c.json({
+      roleId: id,
+      accessIds: body.accessIds,
+    } as SaveRoleAccessResponse);
+  },
+);
 
 roleHandler.get('/:id', async (c) => {
   const { id } = c.req.param();

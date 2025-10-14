@@ -32,7 +32,8 @@ model AdminRole {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  users AdminUser[]
+  users    AdminUser[]
+  accesses RolesOnAccesses[]
 
   @@map("t_admin_role")
 }
@@ -50,5 +51,19 @@ model AdminAccess {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
+  roles RolesOnAccesses[]
+
   @@map("t_admin_access")
+}
+
+model RolesOnAccesses {
+  id        String      @id @default(cuid())
+  roleId    String      @map("role_id")
+  role      AdminRole   @relation(fields: [roleId], references: [id])
+  accessId  String      @map("access_id")
+  access    AdminAccess @relation(fields: [accessId], references: [id])
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  @@map("t_admin_role_access")
 }

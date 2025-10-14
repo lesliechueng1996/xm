@@ -80,11 +80,37 @@ export const deleteRole = async (id: string) => {
     });
   }
 
-  return prisma.adminRole.delete({
+  const deleteRole = prisma.adminRole.delete({
     where: { id },
   });
+  const deleteRoleAccess = prisma.rolesOnAccesses.deleteMany({
+    where: { roleId: id },
+  });
+  return prisma.$transaction([deleteRole, deleteRoleAccess]);
 };
 
 export const allRoles = async () => {
   return prisma.adminRole.findMany();
+};
+
+export const getRoleAccess = async (roleId: string) => {
+  const roleAccess = await prisma.rolesOnAccesses.findMany({
+    select: {
+      accessId: true,
+    },
+    where: {
+      roleId,
+    },
+  });
+  return roleAccess.map((item) => item.accessId);
+};
+
+export const saveRoleAccess = async (roleId: string, accessIds: string[]) => {
+  const deleteRoleAccess = prisma.rolesOnAccesses.deleteMany({
+    where: { roleId },
+  });
+  const createRoleAccess = prisma.rolesOnAccesses.createMany({
+    data: accessIds.map((accessId) => ({ roleId, accessId })),
+  });
+  return prisma.$transaction([deleteRoleAccess, createRoleAccess]);
 };
