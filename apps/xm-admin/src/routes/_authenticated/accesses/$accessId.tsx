@@ -1,0 +1,89 @@
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useDocumentTitle } from 'usehooks-ts';
+import { getAccess } from '@/apis/access-api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import Loading from '@repo/ui-component/Loading';
+import type { EditAccessRequest } from '@repo/admin-api-types';
+import { addToast } from '@heroui/react';
+import { editAccess } from '@/apis/access-api';
+import AccessForm, {
+  type MenuFormType,
+  type ModuleFormType,
+  type OperationFormType,
+} from './-components/AccessForm';
+import { AdminAccessType } from '@repo/common-types';
+
+const EditAccessPage = () => {
+  const navigate = useNavigate();
+  const { accessId } = Route.useParams();
+  useDocumentTitle(`编辑权限`);
+
+  const { data: access, isFetching } = useQuery({
+    queryKey: ['access', accessId],
+    queryFn: () => getAccess(accessId),
+  });
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: EditAccessRequest) => {
+      await editAccess(accessId, data);
+    },
+    onSuccess: () => {
+      addToast({
+        title: '成功',
+        description: '编辑权限成功',
+        color: 'success',
+      });
+      navigate({ to: '/accesses' });
+    },
+    onError: (error) => {
+      addToast({
+        title: '错误',
+        description: (error as Error).message || '编辑权限失败',
+        color: 'danger',
+      });
+    },
+  });
+
+  if (isFetching || !access) {
+    return <Loading />;
+  }
+
+  if (access.type === AdminAccessType.MODULE) {
+    const defaultValues: ModuleFormType = {
+      accessName: access.accessName,
+      type: access.type as AdminAccessType.MODULE,
+      sort: access.sort,
+      description: access.description,
+    };
+
+    return (
+      <AccessForm
+        onSave={mutate}
+        isPending={isPending}
+        defaultValues={defaultValues}
+        isEdit
+      />
+    );
+  }
+
+  const defaultValues: MenuFormType | OperationFormType = {
+    accessName: access.accessName,
+    type: access.type as AdminAccessType.MENU | AdminAccessType.OPERATION,
+    url: access.url ?? '',
+    parentId: access.parentId ?? '',
+    sort: access.sort,
+    description: access.description,
+  };
+
+  return (
+    <AccessForm
+      onSave={mutate}
+      isPending={isPending}
+      defaultValues={defaultValues}
+      isEdit
+    />
+  );
+};
+
+export const Route = createFileRoute('/_authenticated/accesses/$accessId')({
+  component: EditAccessPage,
+});

@@ -15,6 +15,7 @@ import { formatDate } from '@/utils/date-util';
 import { AdminAccessType } from '@repo/common-types';
 import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
+import { useDocumentTitle } from 'usehooks-ts';
 
 const accessTypeMap = {
   [AdminAccessType.MODULE]: {
@@ -37,6 +38,7 @@ const AccessesPage = () => {
     queryKey: ['accesses'],
     queryFn: () => getAllAccesses(),
   });
+  useDocumentTitle('权限列表');
   return (
     <Table
       aria-label="权限列表"
@@ -76,13 +78,13 @@ const AccessesPage = () => {
               <div className="flex gap-2">
                 <Button
                   isIconOnly
-                  aria-label="编辑角色"
+                  aria-label="编辑权限"
                   variant="faded"
                   color="secondary"
                   onPress={() =>
                     navigate({
-                      to: '/roles/$roleId',
-                      params: { roleId: item.id },
+                      to: '/accesses/$accessId',
+                      params: { accessId: item.id },
                     })
                   }
                 >
@@ -91,7 +93,7 @@ const AccessesPage = () => {
                 <ConfirmDeleteBtn
                   // onConfirm={() => delRole(item.id)}
                   onConfirm={() => {}}
-                  label="删除角色"
+                  label="删除权限"
                 />
               </div>
             </TableCell>

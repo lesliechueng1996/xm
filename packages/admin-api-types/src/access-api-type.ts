@@ -47,3 +47,36 @@ export type GetAllAccessesResponse = {
   status: number;
   createdAt: number;
 }[];
+
+export type GetAccessResponse = {
+  id: string;
+  accessName: string;
+  type: AdminAccessType;
+  url: string | null;
+  parentId: string | null;
+  sort: number;
+  description: string;
+  status: number;
+};
+
+export const editAccessRequestSchema = z.object({
+  accessName: z
+    .string()
+    .min(1, '权限名称不能为空')
+    .max(16, '权限名称不能超过16个字符'),
+  url: z.string().optional(),
+  parentId: z.string().optional(),
+  sort: z
+    .int()
+    .min(0, '排序不能小于0')
+    .max(999, '排序不能大于999')
+    .optional()
+    .default(100),
+  description: z.string().optional(),
+});
+
+export type EditAccessRequest = z.infer<typeof editAccessRequestSchema>;
+
+export type EditAccessResponse = {
+  id: string;
+};

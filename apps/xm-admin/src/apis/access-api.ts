@@ -1,10 +1,13 @@
 import type {
   CreateAccessRequest,
   CreateAccessResponse,
+  EditAccessRequest,
+  EditAccessResponse,
+  GetAccessResponse,
   GetAllAccessesResponse,
 } from '@repo/admin-api-types';
 import { AdminAccessType, type SelectOption } from '@repo/common-types';
-import { get, post } from './http';
+import { get, post, put } from './http';
 
 export const createAccess = async (data: CreateAccessRequest) => {
   return post<CreateAccessResponse>('/admin/access', {
@@ -28,4 +31,14 @@ export const getAccessOptions = async (type: AdminAccessType) => {
 
 export const getAllAccesses = async () => {
   return get<GetAllAccessesResponse>('/admin/access');
+};
+
+export const getAccess = async (id: string) => {
+  return get<GetAccessResponse>(`/admin/access/${id}`);
+};
+
+export const editAccess = async (id: string, data: EditAccessRequest) => {
+  return put<EditAccessResponse>(`/admin/access/${id}`, {
+    body: data,
+  });
 };

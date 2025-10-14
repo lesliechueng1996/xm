@@ -4,6 +4,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editRole, getRole } from '@/apis/role-api';
 import RoleForm, { type FormType } from './-components/RoleForm';
+import Loading from '@repo/ui-component/Loading';
 
 const RoleIdPage = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const RoleIdPage = () => {
   });
 
   if (isQueryLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

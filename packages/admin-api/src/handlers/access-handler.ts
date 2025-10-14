@@ -1,6 +1,8 @@
 import {
   type CreateAccessResponse,
+  type EditAccessResponse,
   createAccessRequestSchema,
+  editAccessRequestSchema,
   getAccessOptionsRequestSchema,
 } from '@repo/admin-api-types';
 import { AdminAccessType } from '@repo/common-types';
@@ -9,6 +11,8 @@ import { validator } from 'hono/validator';
 import { z } from 'zod';
 import {
   createAccess,
+  editAccess,
+  getAccess,
   getAccessOptions,
   getAllAccesses,
 } from '../services/admin-access-service.js';
@@ -94,5 +98,30 @@ accessHandler.get('/', async (c) => {
   const accesses = await getAllAccesses();
   return c.json(accesses);
 });
+
+accessHandler.get('/:id', async (c) => {
+  const { id } = c.req.param();
+  const access = await getAccess(id);
+  return c.json(access);
+});
+
+accessHandler.put(
+  '/:id',
+  validator('json', (value, c) => {
+    const parsed = editAccessRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(parsed.error, 400);
+    }
+    return parsed.data;
+  }),
+  async (c) => {
+    const { id } = c.req.param();
+    const data = c.req.valid('json');
+    const access = await editAccess(id, data);
+    return c.json({
+      id: access.id,
+    } as EditAccessResponse);
+  },
+);
 
 export default accessHandler;

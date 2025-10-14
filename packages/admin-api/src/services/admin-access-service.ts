@@ -1,5 +1,7 @@
 import type {
   CreateAccessRequest,
+  EditAccessRequest,
+  GetAccessResponse,
   GetAllAccessesResponse,
 } from '@repo/admin-api-types';
 import { AdminAccessType, type SelectOption } from '@repo/common-types';
@@ -142,4 +144,39 @@ export const getAllAccesses = async (): Promise<GetAllAccessesResponse> => {
 
   buildResponse(tree);
   return result;
+};
+
+export const getAccess = async (id: string): Promise<GetAccessResponse> => {
+  const access = await prisma.adminAccess.findUnique({
+    where: { id },
+  });
+  if (!access) {
+    throw new HTTPException(404, {
+      message: '权限不存在',
+    });
+  }
+  return {
+    id: access.id,
+    accessName: access.accessName,
+    type: access.type,
+    url: access.url ?? null,
+    parentId: access.parentId ?? null,
+    sort: access.sort,
+    description: access.description ?? '',
+    status: access.status,
+  };
+};
+
+export const editAccess = async (id: string, data: EditAccessRequest) => {
+  await getAccess(id);
+  return prisma.adminAccess.update({
+    where: { id },
+    data: {
+      accessName: data.accessName,
+      url: data.url,
+      parentId: data.parentId,
+      sort: data.sort,
+      description: data.description,
+    },
+  });
 };

@@ -15,14 +15,14 @@ import { useQuery } from '@tanstack/react-query';
 import { type FormEvent, type Key, useEffect, useState } from 'react';
 import { getAccessOptions } from '@/apis/access-api';
 
-type ModuleFormType = {
+export type ModuleFormType = {
   accessName: string;
   type: AdminAccessType.MODULE;
   sort?: number;
   description?: string;
 };
 
-type MenuFormType = {
+export type MenuFormType = {
   accessName: string;
   type: AdminAccessType.MENU;
   url: string;
@@ -31,7 +31,7 @@ type MenuFormType = {
   description?: string;
 };
 
-type OperationFormType = {
+export type OperationFormType = {
   accessName: string;
   type: AdminAccessType.OPERATION;
   url: string;
@@ -46,9 +46,15 @@ type Props = {
   onSave: (data: FormType) => void;
   isPending: boolean;
   defaultValues?: FormType;
+  isEdit?: boolean;
 };
 
-const AccessForm = ({ onSave, isPending, defaultValues }: Props) => {
+const AccessForm = ({
+  onSave,
+  isPending,
+  defaultValues,
+  isEdit = false,
+}: Props) => {
   const [accessType, setAccessType] = useState<AdminAccessType>(
     defaultValues?.type ?? AdminAccessType.MODULE,
   );
@@ -84,8 +90,11 @@ const AccessForm = ({ onSave, isPending, defaultValues }: Props) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <Need to reset parentId when accessType changes>
   useEffect(() => {
+    if (isEdit) {
+      return;
+    }
     setParentId(null);
-  }, [accessType]);
+  }, [accessType, isEdit]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,7 +130,8 @@ const AccessForm = ({ onSave, isPending, defaultValues }: Props) => {
     <Form className="w-full max-w-xl gap-4" onSubmit={onSubmit}>
       <Select
         name="type"
-        isRequired
+        isRequired={!isEdit}
+        isDisabled={isEdit}
         className="max-w-xs"
         labelPlacement="outside"
         label="权限类型"

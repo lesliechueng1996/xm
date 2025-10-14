@@ -4,6 +4,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editUser, getUser } from '@/apis/user-api';
 import UserForm, { type FormType } from './-components/UserForm';
+import Loading from '@repo/ui-component/Loading';
 
 const UserIdPage = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const UserIdPage = () => {
   });
 
   if (isQueryLoading || !user) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
