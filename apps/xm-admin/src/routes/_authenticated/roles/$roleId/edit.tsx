@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editRole, getRole } from '@/apis/role-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 import RoleForm, { type FormType } from '../-components/RoleForm';
 
 const RoleIdPage = () => {
@@ -48,4 +49,5 @@ const RoleIdPage = () => {
 
 export const Route = createFileRoute('/_authenticated/roles/$roleId/edit')({
   component: RoleIdPage,
+  beforeLoad: beforeLoadGuard('roles:edit'),
 });

@@ -57,7 +57,11 @@ const Header = () => {
             variant="flat"
             onAction={handleDropdownAction}
           >
-            <DropdownItem key="profile" className="h-14 gap-2">
+            <DropdownItem
+              key="profile"
+              className="h-14 gap-2"
+              textValue="已登录"
+            >
               <p className="font-semibold">已登录</p>
               <p className="font-semibold">{username}</p>
             </DropdownItem>

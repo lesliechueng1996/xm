@@ -4,6 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editUser, getUser } from '@/apis/user-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 import UserForm, { type FormType } from './-components/UserForm';
 
 const UserIdPage = () => {
@@ -64,4 +65,5 @@ const UserIdPage = () => {
 
 export const Route = createFileRoute('/_authenticated/users/$userId')({
   component: UserIdPage,
+  beforeLoad: beforeLoadGuard('users:edit'),
 });

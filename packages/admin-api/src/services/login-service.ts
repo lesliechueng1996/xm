@@ -2,6 +2,8 @@ import type { TokenPayload } from '@repo/admin-api-types';
 import { HTTPException } from 'hono/http-exception';
 import { sign } from 'hono/jwt';
 import { encryptPassword } from '../utils/password-util.js';
+import { getAccessKeys } from './admin-access-service.js';
+import { getRoleAccessIds } from './admin-role-service.js';
 import { findAdminUserByUsername } from './admin-user-service.js';
 
 export const issuer = 'admin-api';
@@ -24,6 +26,9 @@ export const adminLogin = async (username: string, password: string) => {
     });
   }
 
+  const accessIds = await getRoleAccessIds(adminUser.roleId);
+  const accessKeys = await getAccessKeys(accessIds);
+
   const payload: TokenPayload = {
     sub: adminUser.id,
     role: adminUser.roleId,
@@ -33,6 +38,7 @@ export const adminLogin = async (username: string, password: string) => {
     iss: issuer,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 days
     username: adminUser.username,
+    accessKeys,
   };
   const token = await sign(payload, process.env.JWT_SECRET as string);
   return token;

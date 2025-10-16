@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { createAccess } from '@/apis/access-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 import AccessForm, { type FormType } from './-components/AccessForm';
 
 const AddAccessPage = () => {
@@ -32,4 +33,5 @@ const AddAccessPage = () => {
 
 export const Route = createFileRoute('/_authenticated/accesses/add')({
   component: AddAccessPage,
+  beforeLoad: beforeLoadGuard('accesses:add'),
 });

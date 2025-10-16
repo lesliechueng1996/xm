@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { createRole } from '@/apis/role-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 import RoleForm, { type FormType } from './-components/RoleForm';
 
 const AddRolePage = () => {
@@ -35,4 +36,5 @@ const AddRolePage = () => {
 
 export const Route = createFileRoute('/_authenticated/roles/add')({
   component: AddRolePage,
+  beforeLoad: beforeLoadGuard('roles:add'),
 });

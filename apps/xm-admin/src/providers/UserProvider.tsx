@@ -7,6 +7,7 @@ type User = {
   isSuper: number;
   exp: number;
   username: string;
+  accessKeys: string[];
 };
 
 type UserContextType = {
@@ -35,6 +36,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
       isSuper: payload.isSuper,
       exp: payload.exp,
       username: payload.username,
+      accessKeys: payload.accessKeys,
     };
   });
 
@@ -47,6 +49,7 @@ const UserProvider = ({ children }: UserProviderProps) => {
       isSuper: payload.isSuper,
       exp: payload.exp,
       username: payload.username,
+      accessKeys: payload.accessKeys,
     });
   };
 

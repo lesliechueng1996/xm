@@ -8,6 +8,7 @@ import { useDocumentTitle } from 'usehooks-ts';
 import { deleteRole, paginationRoles } from '@/apis/role-api';
 import DataTable, { type Column } from '@/components/DataTable';
 import { formatDate } from '@/utils/date-util';
+import { beforeLoadGuard } from '@/utils/guard-util';
 
 const RolesPage = () => {
   useDocumentTitle('角色列表');
@@ -105,4 +106,5 @@ const RolesPage = () => {
 
 export const Route = createFileRoute('/_authenticated/roles/')({
   component: RolesPage,
+  beforeLoad: beforeLoadGuard('roles:list'),
 });

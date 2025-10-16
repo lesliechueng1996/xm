@@ -6,6 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editAccess, getAccess } from '@/apis/access-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 import AccessForm, {
   type MenuFormType,
   type ModuleFormType,
@@ -87,4 +88,5 @@ const EditAccessPage = () => {
 
 export const Route = createFileRoute('/_authenticated/accesses/$accessId')({
   component: EditAccessPage,
+  beforeLoad: beforeLoadGuard('accesses:edit'),
 });

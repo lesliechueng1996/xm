@@ -206,3 +206,16 @@ export const deleteAccess = async (id: string) => {
   });
   return prisma.$transaction([deleteAccess, deleteRoleAccess]);
 };
+
+export const getAccessKeys = async (ids: string[]): Promise<string[]> => {
+  const accesses = await prisma.adminAccess.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+  });
+  return accesses
+    .map((access) => access.key ?? null)
+    .filter((key) => key !== null);
+};

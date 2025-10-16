@@ -16,7 +16,6 @@ const adminApi = new Hono<{ Variables: Variables }>();
 
 adminApi.use(async (c, next) => {
   const path = c.req.path;
-  console.log(path);
   if (path.startsWith('/admin/login')) {
     await next();
     return;

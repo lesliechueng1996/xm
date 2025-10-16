@@ -18,7 +18,7 @@ import {
   deleteRole,
   editRole,
   getRole,
-  getRoleAccess,
+  getRoleAccessIds,
   paginationRoles,
   saveRoleAccess,
 } from '../services/admin-role-service.js';
@@ -79,7 +79,7 @@ roleHandler.get('/options', async (c) => {
 
 roleHandler.get('/:id/access', async (c) => {
   const { id } = c.req.param();
-  const accessIds = await getRoleAccess(id);
+  const accessIds = await getRoleAccessIds(id);
   return c.json({
     roleId: id,
     accessIds,

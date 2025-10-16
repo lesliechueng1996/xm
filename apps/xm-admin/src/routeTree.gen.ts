@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteRouteImport } from './routes/login/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as Authenticated403RouteImport } from './routes/_authenticated/403'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedRolesIndexRouteImport } from './routes/_authenticated/roles/index'
 import { Route as AuthenticatedAccessesIndexRouteImport } from './routes/_authenticated/accesses/index'
@@ -35,6 +36,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const Authenticated403Route = Authenticated403RouteImport.update({
+  id: '/403',
+  path: '/403',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
@@ -96,6 +102,7 @@ const AuthenticatedRolesRoleIdAccessRoute =
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRouteRoute
+  '/403': typeof Authenticated403Route
   '/': typeof AuthenticatedIndexRoute
   '/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRouteRoute
+  '/403': typeof Authenticated403Route
   '/': typeof AuthenticatedIndexRoute
   '/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/login': typeof LoginRouteRoute
+  '/_authenticated/403': typeof Authenticated403Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/_authenticated/accesses/add': typeof AuthenticatedAccessesAddRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/login'
+    | '/403'
     | '/'
     | '/accesses/$accessId'
     | '/accesses/add'
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
+    | '/403'
     | '/'
     | '/accesses/$accessId'
     | '/accesses/add'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/login'
+    | '/_authenticated/403'
     | '/_authenticated/'
     | '/_authenticated/accesses/$accessId'
     | '/_authenticated/accesses/add'
@@ -210,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/403': {
+      id: '/_authenticated/403'
+      path: '/403'
+      fullPath: '/403'
+      preLoaderRoute: typeof Authenticated403RouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/users/': {
@@ -286,6 +305,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  Authenticated403Route: typeof Authenticated403Route
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccessesAccessIdRoute: typeof AuthenticatedAccessesAccessIdRoute
   AuthenticatedAccessesAddRoute: typeof AuthenticatedAccessesAddRoute
@@ -300,6 +320,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  Authenticated403Route: Authenticated403Route,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccessesAccessIdRoute: AuthenticatedAccessesAccessIdRoute,
   AuthenticatedAccessesAddRoute: AuthenticatedAccessesAddRoute,

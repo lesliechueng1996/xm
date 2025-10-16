@@ -9,6 +9,7 @@ import { deleteUser, paginationUsers } from '@/apis/user-api';
 import DataTable, { type Column } from '@/components/DataTable';
 import useUser from '@/hooks/useUser';
 import { formatDate } from '@/utils/date-util';
+import { beforeLoadGuard } from '@/utils/guard-util';
 
 const UsersPage = () => {
   useDocumentTitle('管理员列表');
@@ -103,4 +104,5 @@ const UsersPage = () => {
 
 export const Route = createFileRoute('/_authenticated/users/')({
   component: UsersPage,
+  beforeLoad: beforeLoadGuard('users:list'),
 });

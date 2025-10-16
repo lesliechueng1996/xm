@@ -48,6 +48,38 @@ export const deleteAccess = async (id: string) => {
   return del(`/admin/access/${id}`);
 };
 
+type ModuleAccess = {
+  id: string;
+  label: string;
+  children: Array<{
+    id: string;
+    label: string;
+  }>;
+};
+
 export const getAccessTree = async () => {
-  return get<GetAccessTreeResponse>(`/admin/access/tree`);
+  const accessTree = await get<GetAccessTreeResponse>(`/admin/access/tree`);
+  const result: ModuleAccess[] = [];
+  for (const module of accessTree) {
+    const accessList: ModuleAccess['children'] = [];
+    for (const menu of module.children) {
+      accessList.push({
+        id: menu.id,
+        label: menu.accessName,
+      });
+      for (const operation of menu.children) {
+        accessList.push({
+          id: operation.id,
+          label: operation.accessName,
+        });
+      }
+    }
+    result.push({
+      id: module.id,
+      label: module.accessName,
+      children: accessList,
+    });
+  }
+
+  return result;
 };

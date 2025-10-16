@@ -93,7 +93,7 @@ export const allRoles = async () => {
   return prisma.adminRole.findMany();
 };
 
-export const getRoleAccess = async (roleId: string) => {
+export const getRoleAccessIds = async (roleId: string) => {
   const roleAccess = await prisma.rolesOnAccesses.findMany({
     select: {
       accessId: true,

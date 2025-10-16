@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { useDocumentTitle } from 'usehooks-ts';
 import { getAccessTree } from '@/apis/access-api';
 import { getRoleAccess, saveRoleAccess } from '@/apis/role-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 
 const RoleAccessPage = () => {
   const { roleId } = Route.useParams();
@@ -120,7 +121,7 @@ const RoleAccessPage = () => {
             <CardBody className="flex flex-col gap-2">
               <div>
                 <Checkbox value={module.id} className="font-bold">
-                  {module.accessName}
+                  {module.label}
                 </Checkbox>
               </div>
 
@@ -129,7 +130,7 @@ const RoleAccessPage = () => {
               <div className="flex gap-5 flex-wrap">
                 {module.children.map((menu) => (
                   <Checkbox key={menu.id} value={menu.id} size="sm">
-                    {menu.accessName}
+                    {menu.label}
                   </Checkbox>
                 ))}
               </div>
@@ -151,4 +152,5 @@ const RoleAccessPage = () => {
 
 export const Route = createFileRoute('/_authenticated/roles/$roleId/access')({
   component: RoleAccessPage,
+  beforeLoad: beforeLoadGuard('roles:access'),
 });

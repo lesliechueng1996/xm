@@ -17,6 +17,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { deleteAccess, getAllAccesses } from '@/apis/access-api';
 import { formatDate } from '@/utils/date-util';
+import { beforeLoadGuard } from '@/utils/guard-util';
 
 const accessTypeMap = {
   [AdminAccessType.MODULE]: {
@@ -129,4 +130,5 @@ const AccessesPage = () => {
 
 export const Route = createFileRoute('/_authenticated/accesses/')({
   component: AccessesPage,
+  beforeLoad: beforeLoadGuard('accesses:list'),
 });

@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { createUser } from '@/apis/user-api';
+import { beforeLoadGuard } from '@/utils/guard-util';
 import UserForm, { type FormType } from './-components/UserForm';
 
 const AddUserPage = () => {
@@ -32,4 +33,5 @@ const AddUserPage = () => {
 
 export const Route = createFileRoute('/_authenticated/users/add')({
   component: AddUserPage,
+  beforeLoad: beforeLoadGuard('users:add'),
 });

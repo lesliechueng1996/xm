@@ -25,4 +25,5 @@ export type TokenPayload = {
   iss: string;
   exp: number;
   username: string;
+  accessKeys: string[];
 };
