@@ -9,6 +9,7 @@ export const createAccessRequestSchema = z.object({
   type: z.enum(AdminAccessType, {
     message: '权限类型不能为空',
   }),
+  key: z.string().optional(),
   url: z.string().optional(),
   parentId: z.string().optional(),
   sort: z
@@ -40,6 +41,7 @@ export type GetAllAccessesResponse = {
   menuName: string;
   operationName: string;
   type: AdminAccessType;
+  key: string | null;
   url: string | null;
   parentId: string | null;
   sort: number;
@@ -53,6 +55,7 @@ export type GetAccessResponse = {
   accessName: string;
   type: AdminAccessType;
   url: string | null;
+  key: string | null;
   parentId: string | null;
   sort: number;
   description: string;
@@ -65,6 +68,7 @@ export const editAccessRequestSchema = z.object({
     .min(1, '权限名称不能为空')
     .max(16, '权限名称不能超过16个字符'),
   url: z.string().optional(),
+  key: z.string().optional(),
   parentId: z.string().optional(),
   sort: z
     .int()

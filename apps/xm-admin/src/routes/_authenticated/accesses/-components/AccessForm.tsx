@@ -18,6 +18,7 @@ import { getAccessOptions } from '@/apis/access-api';
 export type ModuleFormType = {
   accessName: string;
   type: AdminAccessType.MODULE;
+  key?: string;
   sort?: number;
   description?: string;
 };
@@ -27,6 +28,7 @@ export type MenuFormType = {
   type: AdminAccessType.MENU;
   url: string;
   parentId: string;
+  key?: string;
   sort?: number;
   description?: string;
 };
@@ -36,6 +38,7 @@ export type OperationFormType = {
   type: AdminAccessType.OPERATION;
   url: string;
   parentId: string;
+  key?: string;
   sort?: number;
   description?: string;
 };
@@ -105,6 +108,7 @@ const AccessForm = ({
     if (accessType === AdminAccessType.MODULE) {
       const data: ModuleFormType = {
         accessName: formData.accessName,
+        key: formData.key,
         type: AdminAccessType.MODULE,
         sort: Number(formData.sort),
         description: formData.description,
@@ -116,6 +120,7 @@ const AccessForm = ({
     ) {
       const data: MenuFormType | OperationFormType = {
         accessName: formData.accessName,
+        key: formData.key,
         type: accessType,
         url: formData.url,
         parentId: parentId ?? '',
@@ -153,6 +158,15 @@ const AccessForm = ({
         placeholder="请输入权限名称"
         maxLength={16}
         defaultValue={defaultValues?.accessName}
+      />
+      <Input
+        className="max-w-xs"
+        label="权限标识"
+        labelPlacement="outside"
+        name="key"
+        placeholder="请输入权限标识"
+        maxLength={16}
+        defaultValue={defaultValues?.key}
       />
       {(accessType === AdminAccessType.MENU ||
         accessType === AdminAccessType.OPERATION) && (

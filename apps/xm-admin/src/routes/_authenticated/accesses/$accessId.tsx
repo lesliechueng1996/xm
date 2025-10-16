@@ -50,6 +50,7 @@ const EditAccessPage = () => {
     const defaultValues: ModuleFormType = {
       accessName: access.accessName,
       type: access.type as AdminAccessType.MODULE,
+      key: access.key ?? '',
       sort: access.sort,
       description: access.description,
     };
@@ -69,6 +70,7 @@ const EditAccessPage = () => {
     type: access.type as AdminAccessType.MENU | AdminAccessType.OPERATION,
     url: access.url ?? '',
     parentId: access.parentId ?? '',
+    key: access.key ?? '',
     sort: access.sort,
     description: access.description,
   };

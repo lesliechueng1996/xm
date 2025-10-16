@@ -31,6 +31,7 @@ export const createAccess = async (data: CreateAccessRequest) => {
       data: {
         accessName: data.accessName,
         type: AdminAccessType.MODULE,
+        key: data.key,
         sort: data.sort,
         description: data.description,
       },
@@ -46,6 +47,7 @@ export const createAccess = async (data: CreateAccessRequest) => {
       data: {
         accessName: data.accessName,
         type: data.type,
+        key: data.key,
         url: data.url,
         parentId: data.parentId,
         sort: data.sort,
@@ -124,6 +126,7 @@ export const getAllAccesses = async (): Promise<GetAllAccessesResponse> => {
         node.type === AdminAccessType.OPERATION ? node.accessName : '-',
       type: node.type,
       url: node.url ?? null,
+      key: node.key ?? null,
       parentId: node.parentId ?? null,
       sort: node.sort,
       description: node.description ?? '',
@@ -161,6 +164,7 @@ export const getAccess = async (id: string): Promise<GetAccessResponse> => {
     accessName: access.accessName,
     type: access.type,
     url: access.url ?? null,
+    key: access.key ?? null,
     parentId: access.parentId ?? null,
     sort: access.sort,
     description: access.description ?? '',
@@ -175,6 +179,7 @@ export const editAccess = async (id: string, data: EditAccessRequest) => {
     data: {
       accessName: data.accessName,
       url: data.url,
+      key: data.key,
       parentId: data.parentId,
       sort: data.sort,
       description: data.description,

@@ -41,6 +41,7 @@ model AdminRole {
 model AdminAccess {
   id          String   @id @default(cuid())
   accessName  String   @map("access_name")
+  key         String?
   // 1: 模块，2: 菜单，3: 操作
   type        Int
   url         String?

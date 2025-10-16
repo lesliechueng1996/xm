@@ -76,6 +76,7 @@ const AccessesPage = () => {
         <TableColumn>操作名称</TableColumn>
         <TableColumn>类型</TableColumn>
         <TableColumn>权限地址</TableColumn>
+        <TableColumn>权限标识</TableColumn>
         <TableColumn>排序</TableColumn>
         <TableColumn>描述</TableColumn>
         <TableColumn>创建时间</TableColumn>
@@ -93,6 +94,7 @@ const AccessesPage = () => {
               </Chip>
             </TableCell>
             <TableCell>{item.url}</TableCell>
+            <TableCell>{item.key}</TableCell>
             <TableCell>{item.sort}</TableCell>
             <TableCell>{item.description}</TableCell>
             <TableCell>{formatDate(item.createdAt)}</TableCell>
