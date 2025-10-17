@@ -1,4 +1,4 @@
-import type { PaginationRequest } from '@repo/common-types';
+import { AdminType, type PaginationRequest } from '@repo/common-types';
 import type { AdminUser } from '@repo/database';
 import { prisma } from '@repo/database';
 import { buildPaginationResponse } from '@repo/server-common';
@@ -134,7 +134,7 @@ export const editUser = async (
 
 export const deleteUser = async (id: string) => {
   const user = await getUser(id);
-  if (user.isSuper === 1) {
+  if (user.isSuper === AdminType.SUPER) {
     throw new HTTPException(400, {
       message: '超级管理员不能删除',
     });

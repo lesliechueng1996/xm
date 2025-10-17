@@ -22,8 +22,10 @@ import {
   paginationRoles,
   saveRoleAccess,
 } from '../services/admin-role-service.js';
+import { canAccess } from '../utils/role-access-util.js';
+import type { Variables } from '../types/context.js';
 
-const roleHandler = new Hono();
+const roleHandler = new Hono<{ Variables: Variables }>();
 
 roleHandler.post(
   '/',
@@ -40,6 +42,7 @@ roleHandler.post(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'roles:add');
     const body = c.req.valid('json');
     const role = await createRole(body.name, body.description);
     return c.json({
@@ -63,6 +66,7 @@ roleHandler.get(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'roles:list');
     const query = c.req.valid('query');
     return c.json(await paginationRoles(query));
   },
@@ -78,6 +82,7 @@ roleHandler.get('/options', async (c) => {
 });
 
 roleHandler.get('/:id/access', async (c) => {
+  canAccess(c, 'roles:access');
   const { id } = c.req.param();
   const accessIds = await getRoleAccessIds(id);
   return c.json({
@@ -96,6 +101,7 @@ roleHandler.post(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'roles:access');
     const { id } = c.req.param();
     const body = c.req.valid('json');
     await saveRoleAccess(id, body.accessIds);
@@ -107,6 +113,7 @@ roleHandler.post(
 );
 
 roleHandler.get('/:id', async (c) => {
+  canAccess(c, 'roles:edit');
   const { id } = c.req.param();
   const role = await getRole(id);
   return c.json({
@@ -133,6 +140,7 @@ roleHandler.put(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'roles:edit');
     const { id } = c.req.param();
     const body = c.req.valid('json');
     const role = await getRole(id);
@@ -144,6 +152,7 @@ roleHandler.put(
 );
 
 roleHandler.delete('/:id', async (c) => {
+  canAccess(c, 'roles:delete');
   const { id } = c.req.param();
   await deleteRole(id);
   return c.json({});

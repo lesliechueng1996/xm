@@ -1,11 +1,12 @@
 import { redirect } from '@tanstack/react-router';
 import type { RouterContext } from '@/types/router-context';
+import { AdminType } from '@repo/common-types';
 
 export const beforeLoadGuard =
   (pageKey: string) =>
   ({ context }: { context: RouterContext }) => {
     const { accessKeys, isSuper } = context;
-    if (isSuper === 1) {
+    if (isSuper === AdminType.SUPER) {
       return;
     }
     if (accessKeys.includes(pageKey)) {

@@ -8,12 +8,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useUser from './hooks/useUser';
 import UserProvider from './providers/UserProvider';
 import type { RouterContext } from './types/router-context';
+import { AdminType } from '@repo/common-types';
 
 const router = createRouter({
   routeTree,
   context: {
     accessKeys: [],
-    isSuper: 0,
+    isSuper: AdminType.USER,
   },
 });
 
@@ -30,7 +31,7 @@ const InnerApp = () => {
 
   const context: RouterContext = {
     accessKeys: user?.accessKeys ?? [],
-    isSuper: user?.isSuper ?? 0,
+    isSuper: user?.isSuper ?? AdminType.USER,
   };
 
   return <RouterProvider router={router} context={context} />;

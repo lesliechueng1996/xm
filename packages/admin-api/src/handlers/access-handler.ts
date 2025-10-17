@@ -18,8 +18,10 @@ import {
   getAccessOptions,
   getAllAccesses,
 } from '../services/admin-access-service.js';
+import type { Variables } from '../types/context.js';
+import { canAccess } from '../utils/role-access-util.js';
 
-const accessHandler = new Hono();
+const accessHandler = new Hono<{ Variables: Variables }>();
 
 accessHandler.post(
   '/',
@@ -58,6 +60,7 @@ accessHandler.post(
     return data;
   }),
   async (c) => {
+    canAccess(c, 'accesses:add');
     const body = c.req.valid('json');
     const access = await createAccess(body);
     return c.json({
@@ -102,11 +105,13 @@ accessHandler.get('/tree', async (c) => {
 });
 
 accessHandler.get('/', async (c) => {
+  canAccess(c, 'accesses:list');
   const accesses = await getAllAccesses();
   return c.json(accesses);
 });
 
 accessHandler.get('/:id', async (c) => {
+  canAccess(c, 'accesses:edit');
   const { id } = c.req.param();
   const access = await getAccess(id);
   return c.json(access);
@@ -122,6 +127,7 @@ accessHandler.put(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'accesses:edit');
     const { id } = c.req.param();
     const data = c.req.valid('json');
     const access = await editAccess(id, data);
@@ -132,6 +138,7 @@ accessHandler.put(
 );
 
 accessHandler.delete('/:id', async (c) => {
+  canAccess(c, 'accesses:delete');
   const { id } = c.req.param();
   await deleteAccess(id);
   return c.json({});

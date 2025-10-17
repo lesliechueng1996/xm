@@ -10,6 +10,7 @@ import DataTable, { type Column } from '@/components/DataTable';
 import useUser from '@/hooks/useUser';
 import { formatDate } from '@/utils/date-util';
 import { beforeLoadGuard } from '@/utils/guard-util';
+import { AdminType } from '@repo/common-types';
 
 const UsersPage = () => {
   useDocumentTitle('管理员列表');
@@ -81,7 +82,7 @@ const UsersPage = () => {
           >
             <PencilSquareIcon className="size-4" />
           </Button>
-          {item.isSuper !== 1 && self?.userId !== item.id && (
+          {item.isSuper !== AdminType.SUPER && self?.userId !== item.id && (
             <ConfirmDeleteBtn
               onConfirm={() => delUser(item.id)}
               label="删除管理员"

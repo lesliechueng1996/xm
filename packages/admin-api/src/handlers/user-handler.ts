@@ -16,8 +16,10 @@ import {
   getUser,
   paginationUsers,
 } from '../services/admin-user-service.js';
+import { canAccess } from '../utils/role-access-util.js';
+import type { Variables } from '../types/context.js';
 
-const userHandler = new Hono();
+const userHandler = new Hono<{ Variables: Variables }>();
 
 userHandler.post(
   '/',
@@ -34,6 +36,7 @@ userHandler.post(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'users:add');
     const body = c.req.valid('json');
     const user = await createUser(
       body.username,
@@ -63,12 +66,14 @@ userHandler.get(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'users:list');
     const query = c.req.valid('query');
     return c.json(await paginationUsers(query));
   },
 );
 
 userHandler.get('/:id', async (c) => {
+  canAccess(c, 'users:edit');
   const { id } = c.req.param();
   const user = await getUser(id);
   return c.json({
@@ -101,6 +106,7 @@ userHandler.put(
     return parsed.data;
   }),
   async (c) => {
+    canAccess(c, 'users:edit');
     const { id } = c.req.param();
     const body = c.req.valid('json');
     const user = await getUser(id);
@@ -118,6 +124,7 @@ userHandler.put(
 );
 
 userHandler.delete('/:id', async (c) => {
+  canAccess(c, 'users:delete');
   const { id } = c.req.param();
   await deleteUser(id);
   return c.json({});
