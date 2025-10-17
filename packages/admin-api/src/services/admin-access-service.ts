@@ -75,8 +75,8 @@ type AccessTreeNode = AdminAccess & {
   children: AccessTreeNode[];
 };
 
-export const buildAccessTree = async () => {
-  const accesses = await prisma.adminAccess.findMany();
+export const buildAccessTree = async (inputAccesses?: AdminAccess[]) => {
+  const accesses = inputAccesses ?? (await prisma.adminAccess.findMany());
 
   const tree: AccessTreeNode[] = [];
   const modules = accesses
@@ -218,4 +218,23 @@ export const getAccessKeys = async (ids: string[]): Promise<string[]> => {
   return accesses
     .map((access) => access.key ?? null)
     .filter((key) => key !== null);
+};
+
+export const getAccessByIds = async (
+  ids: string[],
+  typeIn?: AdminAccessType[],
+): Promise<AdminAccess[]> => {
+  return prisma.adminAccess.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+      type: {
+        in: typeIn,
+      },
+    },
+    orderBy: {
+      sort: 'asc',
+    },
+  });
 };

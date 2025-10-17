@@ -27,6 +27,7 @@ export const userMiddleware = createMiddleware(async (c, next) => {
   const accessIds = await getRoleAccessIds(roleId);
   const accessKeys = await getAccessKeys(accessIds);
   c.set('accessKeys', accessKeys);
+  c.set('userId', userId);
   c.set('isSuper', user.isSuper);
   await next();
 });

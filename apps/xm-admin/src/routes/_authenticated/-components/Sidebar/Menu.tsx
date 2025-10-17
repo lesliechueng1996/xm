@@ -6,7 +6,7 @@ type Props = {
   label: string;
   items: {
     label: string;
-    key: string;
+    id: string;
     path: string;
   }[];
 };
@@ -44,7 +44,7 @@ const Menu = ({ label, items }: Props) => {
         <div className="overflow-hidden min-h-0">
           <div className="px-4 pb-2">
             {items.map((item) => (
-              <div key={item.key} className="border-l border-divider px-2">
+              <div key={item.id} className="border-l border-divider px-2">
                 <Link
                   to={item.path}
                   className={`block px-2 py-1 hover:bg-default-200/50 cursor-pointer rounded-md ${

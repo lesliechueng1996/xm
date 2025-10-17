@@ -1,9 +1,15 @@
-import { AdminType, type PaginationRequest } from '@repo/common-types';
+import {
+  AdminAccessType,
+  AdminType,
+  type PaginationRequest,
+} from '@repo/common-types';
 import type { AdminUser } from '@repo/database';
 import { prisma } from '@repo/database';
 import { buildPaginationResponse } from '@repo/server-common';
 import { HTTPException } from 'hono/http-exception';
 import { encryptPassword } from '../utils/password-util.js';
+import { buildAccessTree, getAccessByIds } from './admin-access-service.js';
+import { getRoleAccessIds } from './admin-role-service.js';
 
 export const findAdminUserByUsername = async (username: string) => {
   return prisma.adminUser.findUnique({
@@ -142,4 +148,16 @@ export const deleteUser = async (id: string) => {
   return prisma.adminUser.delete({
     where: { id },
   });
+};
+
+export const getUserMenus = async (userId: string) => {
+  const user = await getUser(userId);
+  const roleId = user.roleId;
+  const accessIds = await getRoleAccessIds(roleId);
+  const accesses = await getAccessByIds(accessIds, [
+    AdminAccessType.MODULE,
+    AdminAccessType.MENU,
+  ]);
+  const accessTree = await buildAccessTree(accesses);
+  return accessTree;
 };
