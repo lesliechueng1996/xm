@@ -1,6 +1,6 @@
+import { AdminType } from '@repo/common-types';
 import { redirect } from '@tanstack/react-router';
 import type { RouterContext } from '@/types/router-context';
-import { AdminType } from '@repo/common-types';
 
 export const beforeLoadGuard =
   (pageKey: string) =>

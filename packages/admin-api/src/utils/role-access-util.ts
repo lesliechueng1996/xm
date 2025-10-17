@@ -1,7 +1,7 @@
+import { AdminType } from '@repo/common-types';
+import type { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import type { Variables } from '../types/context.js';
-import type { Context } from 'hono';
-import { AdminType } from '@repo/common-types';
 
 export const canAccess = (
   c: Context<{ Variables: Variables }>,

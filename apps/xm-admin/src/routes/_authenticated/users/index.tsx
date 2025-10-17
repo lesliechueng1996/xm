@@ -1,6 +1,7 @@
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { addToast, Button } from '@heroui/react';
 import type { PaginationUsersResponse } from '@repo/admin-api-types';
+import { AdminType } from '@repo/common-types';
 import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
@@ -10,7 +11,6 @@ import DataTable, { type Column } from '@/components/DataTable';
 import useUser from '@/hooks/useUser';
 import { formatDate } from '@/utils/date-util';
 import { beforeLoadGuard } from '@/utils/guard-util';
-import { AdminType } from '@repo/common-types';
 
 const UsersPage = () => {
   useDocumentTitle('管理员列表');

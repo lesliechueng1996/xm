@@ -4,11 +4,11 @@ import { createRoot } from 'react-dom/client';
 import { routeTree } from './routeTree.gen';
 import './index.css';
 import { HeroUIProvider, ToastProvider } from '@heroui/react';
+import { AdminType } from '@repo/common-types';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import useUser from './hooks/useUser';
 import UserProvider from './providers/UserProvider';
 import type { RouterContext } from './types/router-context';
-import { AdminType } from '@repo/common-types';
 
 const router = createRouter({
   routeTree,

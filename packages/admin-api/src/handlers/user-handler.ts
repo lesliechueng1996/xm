@@ -16,8 +16,8 @@ import {
   getUser,
   paginationUsers,
 } from '../services/admin-user-service.js';
-import { canAccess } from '../utils/role-access-util.js';
 import type { Variables } from '../types/context.js';
+import { canAccess } from '../utils/role-access-util.js';
 
 const userHandler = new Hono<{ Variables: Variables }>();
 

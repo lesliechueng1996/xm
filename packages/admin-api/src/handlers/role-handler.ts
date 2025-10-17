@@ -22,8 +22,8 @@ import {
   paginationRoles,
   saveRoleAccess,
 } from '../services/admin-role-service.js';
-import { canAccess } from '../utils/role-access-util.js';
 import type { Variables } from '../types/context.js';
+import { canAccess } from '../utils/role-access-util.js';
 
 const roleHandler = new Hono<{ Variables: Variables }>();
 
