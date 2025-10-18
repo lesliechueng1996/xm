@@ -21,6 +21,7 @@ import { Route as AuthenticatedUsersAddRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated/users/$userId'
 import { Route as AuthenticatedRolesAddRouteImport } from './routes/_authenticated/roles/add'
 import { Route as AuthenticatedFocusAddRouteImport } from './routes/_authenticated/focus/add'
+import { Route as AuthenticatedFocusFocusIdRouteImport } from './routes/_authenticated/focus/$focusId'
 import { Route as AuthenticatedAccessesAddRouteImport } from './routes/_authenticated/accesses/add'
 import { Route as AuthenticatedAccessesAccessIdRouteImport } from './routes/_authenticated/accesses/$accessId'
 import { Route as AuthenticatedRolesRoleIdEditRouteImport } from './routes/_authenticated/roles/$roleId/edit'
@@ -87,6 +88,12 @@ const AuthenticatedFocusAddRoute = AuthenticatedFocusAddRouteImport.update({
   path: '/focus/add',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFocusFocusIdRoute =
+  AuthenticatedFocusFocusIdRouteImport.update({
+    id: '/focus/$focusId',
+    path: '/focus/$focusId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAccessesAddRoute =
   AuthenticatedAccessesAddRouteImport.update({
     id: '/accesses/add',
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
+  '/focus/$focusId': typeof AuthenticatedFocusFocusIdRoute
   '/focus/add': typeof AuthenticatedFocusAddRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
@@ -135,6 +143,7 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
+  '/focus/$focusId': typeof AuthenticatedFocusFocusIdRoute
   '/focus/add': typeof AuthenticatedFocusAddRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
@@ -154,6 +163,7 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/_authenticated/accesses/add': typeof AuthenticatedAccessesAddRoute
+  '/_authenticated/focus/$focusId': typeof AuthenticatedFocusFocusIdRoute
   '/_authenticated/focus/add': typeof AuthenticatedFocusAddRoute
   '/_authenticated/roles/add': typeof AuthenticatedRolesAddRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accesses/$accessId'
     | '/accesses/add'
+    | '/focus/$focusId'
     | '/focus/add'
     | '/roles/add'
     | '/users/$userId'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accesses/$accessId'
     | '/accesses/add'
+    | '/focus/$focusId'
     | '/focus/add'
     | '/roles/add'
     | '/users/$userId'
@@ -208,6 +220,7 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/accesses/$accessId'
     | '/_authenticated/accesses/add'
+    | '/_authenticated/focus/$focusId'
     | '/_authenticated/focus/add'
     | '/_authenticated/roles/add'
     | '/_authenticated/users/$userId'
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFocusAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/focus/$focusId': {
+      id: '/_authenticated/focus/$focusId'
+      path: '/focus/$focusId'
+      fullPath: '/focus/$focusId'
+      preLoaderRoute: typeof AuthenticatedFocusFocusIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/accesses/add': {
       id: '/_authenticated/accesses/add'
       path: '/accesses/add'
@@ -347,6 +367,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccessesAccessIdRoute: typeof AuthenticatedAccessesAccessIdRoute
   AuthenticatedAccessesAddRoute: typeof AuthenticatedAccessesAddRoute
+  AuthenticatedFocusFocusIdRoute: typeof AuthenticatedFocusFocusIdRoute
   AuthenticatedFocusAddRoute: typeof AuthenticatedFocusAddRoute
   AuthenticatedRolesAddRoute: typeof AuthenticatedRolesAddRoute
   AuthenticatedUsersUserIdRoute: typeof AuthenticatedUsersUserIdRoute
@@ -364,6 +385,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccessesAccessIdRoute: AuthenticatedAccessesAccessIdRoute,
   AuthenticatedAccessesAddRoute: AuthenticatedAccessesAddRoute,
+  AuthenticatedFocusFocusIdRoute: AuthenticatedFocusFocusIdRoute,
   AuthenticatedFocusAddRoute: AuthenticatedFocusAddRoute,
   AuthenticatedRolesAddRoute: AuthenticatedRolesAddRoute,
   AuthenticatedUsersUserIdRoute: AuthenticatedUsersUserIdRoute,

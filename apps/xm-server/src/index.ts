@@ -1,4 +1,5 @@
 import { serve } from '@hono/node-server';
+import { serveStatic } from '@hono/node-server/serve-static';
 import adminApi from '@repo/admin-api';
 import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
@@ -13,6 +14,13 @@ app.use(requestId());
 app.get('/', (c) => {
   return c.text('Hello Hono!');
 });
+
+app.use(
+  '/static/*',
+  serveStatic({
+    root: './',
+  }),
+);
 
 app.route('/admin', adminApi);
 

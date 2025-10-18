@@ -1,4 +1,8 @@
-import { FocusStatus, FocusType } from '@repo/common-types';
+import {
+  FocusStatus,
+  FocusType,
+  type PaginationResponse,
+} from '@repo/common-types';
 import { z } from 'zod';
 
 export const createFocusRequestSchema = z.object({
@@ -20,3 +24,13 @@ export type CreateFocusRequest = z.infer<typeof createFocusRequestSchema>;
 export type CreateFocusResponse = {
   id: string;
 };
+
+export type PaginationFocusesResponse = PaginationResponse<{
+  id: string;
+  type: FocusType;
+  title: string;
+  focusImg: string;
+  link: string;
+  sort: number;
+  status: FocusStatus;
+}>;

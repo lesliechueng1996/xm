@@ -37,4 +37,4 @@ yarn-error.log*
 .DS_Store
 *.pem
 
-apps/xm-server/public
+apps/xm-server/static
