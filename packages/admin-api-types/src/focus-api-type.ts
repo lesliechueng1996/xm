@@ -1,0 +1,22 @@
+import { FocusStatus, FocusType } from '@repo/common-types';
+import { z } from 'zod';
+
+export const createFocusRequestSchema = z.object({
+  type: z.enum(FocusType),
+  title: z.string().min(1, '名称不能为空').max(16, '名称不能超过16个字符'),
+  link: z.url(),
+  focusImg: z.string().min(1, '轮播图不能为空'),
+  sort: z
+    .number()
+    .min(0, '排序不能小于0')
+    .max(999, '排序不能大于999')
+    .optional()
+    .default(10),
+  status: z.enum(FocusStatus),
+});
+
+export type CreateFocusRequest = z.infer<typeof createFocusRequestSchema>;
+
+export type CreateFocusResponse = {
+  id: string;
+};

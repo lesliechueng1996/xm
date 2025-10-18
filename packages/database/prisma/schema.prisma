@@ -68,3 +68,17 @@ model RolesOnAccesses {
 
   @@map("t_admin_role_access")
 }
+
+model Focus {
+  id        String   @id @default(cuid())
+  title     String
+  type      Int
+  focusImg  String   @map("focus_img")
+  link      String
+  sort      Int
+  status    Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("t_focus")
+}

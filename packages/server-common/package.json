@@ -10,10 +10,12 @@
     "dev": "tsc --watch"
   },
   "devDependencies": {
-    "typescript": "5.9.3",
-    "@types/node": "^20.11.17"
+    "@types/node": "^20.11.17",
+    "typescript": "5.9.3"
   },
   "dependencies": {
-    "@repo/common-types": "workspace:*"
+    "@repo/common-types": "workspace:*",
+    "date-fns": "^4.1.0",
+    "uuid": "^13.0.0"
   }
 }

@@ -2,7 +2,7 @@ import type { ApiError } from '@repo/common-types';
 
 export const sendRequest = async <T>(
   url: string,
-  options?: Omit<RequestInit, 'body'> & { body?: object },
+  options?: Omit<RequestInit, 'body'> & { body?: BodyInit },
 ) => {
   const { body, headers, ...rest } = options ?? {};
   const token = localStorage.getItem('token');
@@ -11,15 +11,22 @@ export const sendRequest = async <T>(
     throw new Error('请重新登录');
   }
 
-  const allHeaders = {
-    'Content-Type': 'application/json',
+  const allHeaders: HeadersInit = new Headers({
     ...headers,
     Authorization: `Bearer ${token}`,
-  };
+  });
+
+  let bodyData: BodyInit | undefined = body;
+  if (body instanceof FormData) {
+    bodyData = body;
+  } else {
+    bodyData = JSON.stringify(body);
+    allHeaders.set('Content-Type', 'application/json');
+  }
 
   const response = await fetch(url, {
     ...rest,
-    body: body ? JSON.stringify(body) : undefined,
+    body: bodyData,
     headers: allHeaders,
   });
   if (response.status === 401) {

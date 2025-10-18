@@ -15,10 +15,12 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as Authenticated403RouteImport } from './routes/_authenticated/403'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedRolesIndexRouteImport } from './routes/_authenticated/roles/index'
+import { Route as AuthenticatedFocusIndexRouteImport } from './routes/_authenticated/focus/index'
 import { Route as AuthenticatedAccessesIndexRouteImport } from './routes/_authenticated/accesses/index'
 import { Route as AuthenticatedUsersAddRouteImport } from './routes/_authenticated/users/add'
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated/users/$userId'
 import { Route as AuthenticatedRolesAddRouteImport } from './routes/_authenticated/roles/add'
+import { Route as AuthenticatedFocusAddRouteImport } from './routes/_authenticated/focus/add'
 import { Route as AuthenticatedAccessesAddRouteImport } from './routes/_authenticated/accesses/add'
 import { Route as AuthenticatedAccessesAccessIdRouteImport } from './routes/_authenticated/accesses/$accessId'
 import { Route as AuthenticatedRolesRoleIdEditRouteImport } from './routes/_authenticated/roles/$roleId/edit'
@@ -53,6 +55,11 @@ const AuthenticatedRolesIndexRoute = AuthenticatedRolesIndexRouteImport.update({
   path: '/roles/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFocusIndexRoute = AuthenticatedFocusIndexRouteImport.update({
+  id: '/focus/',
+  path: '/focus/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAccessesIndexRoute =
   AuthenticatedAccessesIndexRouteImport.update({
     id: '/accesses/',
@@ -73,6 +80,11 @@ const AuthenticatedUsersUserIdRoute =
 const AuthenticatedRolesAddRoute = AuthenticatedRolesAddRouteImport.update({
   id: '/roles/add',
   path: '/roles/add',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFocusAddRoute = AuthenticatedFocusAddRouteImport.update({
+  id: '/focus/add',
+  path: '/focus/add',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAccessesAddRoute =
@@ -106,10 +118,12 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
+  '/focus/add': typeof AuthenticatedFocusAddRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/users/add': typeof AuthenticatedUsersAddRoute
   '/accesses': typeof AuthenticatedAccessesIndexRoute
+  '/focus': typeof AuthenticatedFocusIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
@@ -121,10 +135,12 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
+  '/focus/add': typeof AuthenticatedFocusAddRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/users/add': typeof AuthenticatedUsersAddRoute
   '/accesses': typeof AuthenticatedAccessesIndexRoute
+  '/focus': typeof AuthenticatedFocusIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
@@ -138,10 +154,12 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/accesses/$accessId': typeof AuthenticatedAccessesAccessIdRoute
   '/_authenticated/accesses/add': typeof AuthenticatedAccessesAddRoute
+  '/_authenticated/focus/add': typeof AuthenticatedFocusAddRoute
   '/_authenticated/roles/add': typeof AuthenticatedRolesAddRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/_authenticated/users/add': typeof AuthenticatedUsersAddRoute
   '/_authenticated/accesses/': typeof AuthenticatedAccessesIndexRoute
+  '/_authenticated/focus/': typeof AuthenticatedFocusIndexRoute
   '/_authenticated/roles/': typeof AuthenticatedRolesIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
@@ -155,10 +173,12 @@ export interface FileRouteTypes {
     | '/'
     | '/accesses/$accessId'
     | '/accesses/add'
+    | '/focus/add'
     | '/roles/add'
     | '/users/$userId'
     | '/users/add'
     | '/accesses'
+    | '/focus'
     | '/roles'
     | '/users'
     | '/roles/$roleId/access'
@@ -170,10 +190,12 @@ export interface FileRouteTypes {
     | '/'
     | '/accesses/$accessId'
     | '/accesses/add'
+    | '/focus/add'
     | '/roles/add'
     | '/users/$userId'
     | '/users/add'
     | '/accesses'
+    | '/focus'
     | '/roles'
     | '/users'
     | '/roles/$roleId/access'
@@ -186,10 +208,12 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/accesses/$accessId'
     | '/_authenticated/accesses/add'
+    | '/_authenticated/focus/add'
     | '/_authenticated/roles/add'
     | '/_authenticated/users/$userId'
     | '/_authenticated/users/add'
     | '/_authenticated/accesses/'
+    | '/_authenticated/focus/'
     | '/_authenticated/roles/'
     | '/_authenticated/users/'
     | '/_authenticated/roles/$roleId/access'
@@ -245,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRolesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/focus/': {
+      id: '/_authenticated/focus/'
+      path: '/focus'
+      fullPath: '/focus'
+      preLoaderRoute: typeof AuthenticatedFocusIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/accesses/': {
       id: '/_authenticated/accesses/'
       path: '/accesses'
@@ -271,6 +302,13 @@ declare module '@tanstack/react-router' {
       path: '/roles/add'
       fullPath: '/roles/add'
       preLoaderRoute: typeof AuthenticatedRolesAddRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/focus/add': {
+      id: '/_authenticated/focus/add'
+      path: '/focus/add'
+      fullPath: '/focus/add'
+      preLoaderRoute: typeof AuthenticatedFocusAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/accesses/add': {
@@ -309,10 +347,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccessesAccessIdRoute: typeof AuthenticatedAccessesAccessIdRoute
   AuthenticatedAccessesAddRoute: typeof AuthenticatedAccessesAddRoute
+  AuthenticatedFocusAddRoute: typeof AuthenticatedFocusAddRoute
   AuthenticatedRolesAddRoute: typeof AuthenticatedRolesAddRoute
   AuthenticatedUsersUserIdRoute: typeof AuthenticatedUsersUserIdRoute
   AuthenticatedUsersAddRoute: typeof AuthenticatedUsersAddRoute
   AuthenticatedAccessesIndexRoute: typeof AuthenticatedAccessesIndexRoute
+  AuthenticatedFocusIndexRoute: typeof AuthenticatedFocusIndexRoute
   AuthenticatedRolesIndexRoute: typeof AuthenticatedRolesIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedRolesRoleIdAccessRoute: typeof AuthenticatedRolesRoleIdAccessRoute
@@ -324,10 +364,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccessesAccessIdRoute: AuthenticatedAccessesAccessIdRoute,
   AuthenticatedAccessesAddRoute: AuthenticatedAccessesAddRoute,
+  AuthenticatedFocusAddRoute: AuthenticatedFocusAddRoute,
   AuthenticatedRolesAddRoute: AuthenticatedRolesAddRoute,
   AuthenticatedUsersUserIdRoute: AuthenticatedUsersUserIdRoute,
   AuthenticatedUsersAddRoute: AuthenticatedUsersAddRoute,
   AuthenticatedAccessesIndexRoute: AuthenticatedAccessesIndexRoute,
+  AuthenticatedFocusIndexRoute: AuthenticatedFocusIndexRoute,
   AuthenticatedRolesIndexRoute: AuthenticatedRolesIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
   AuthenticatedRolesRoleIdAccessRoute: AuthenticatedRolesRoleIdAccessRoute,
