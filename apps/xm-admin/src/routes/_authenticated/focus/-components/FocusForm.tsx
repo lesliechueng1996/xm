@@ -24,12 +24,18 @@ export type FormType = {
 };
 
 type Props = {
+  isEdit?: boolean;
   onSave: (data: FormType) => void;
   isPending: boolean;
   defaultValues?: FormType;
 };
 
-const FocusForm = ({ onSave, isPending, defaultValues }: Props) => {
+const FocusForm = ({
+  isEdit = false,
+  onSave,
+  isPending,
+  defaultValues,
+}: Props) => {
   const focusImgRef = useRef<UploadImageRef | null>(null);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,7 +50,7 @@ const FocusForm = ({ onSave, isPending, defaultValues }: Props) => {
     ) as unknown as FormType;
 
     const focusImg = await focusImgRef.current.uploadImage();
-    if (!focusImg) {
+    if (!isEdit && !focusImg) {
       addToast({
         title: '错误',
         description: '上传图片失败',
@@ -52,7 +58,7 @@ const FocusForm = ({ onSave, isPending, defaultValues }: Props) => {
       });
       return;
     }
-    data.focusImg = focusImg;
+    data.focusImg = focusImg || '';
     data.sort = Number(data.sort);
     data.status = Number(data.status);
     data.type = Number(data.type);
@@ -98,7 +104,13 @@ const FocusForm = ({ onSave, isPending, defaultValues }: Props) => {
         maxLength={255}
         defaultValue={defaultValues?.link}
       />
-      <UploadImage label="轮播图" ref={focusImgRef} isDisabled={isPending} />
+      <UploadImage
+        label="轮播图"
+        ref={focusImgRef}
+        isDisabled={isPending}
+        isRequired={!isEdit}
+        previewUrl={defaultValues?.focusImg}
+      />
       <NumberInput
         className="max-w-xs"
         label="排序"

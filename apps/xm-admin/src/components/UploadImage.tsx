@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import {
   type ChangeEventHandler,
   type RefObject,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -20,6 +21,7 @@ type Props = {
   label: string;
   isDisabled?: boolean;
   ref: RefObject<UploadImageRef | null>;
+  previewUrl?: string;
 };
 
 const UploadImage = ({
@@ -27,6 +29,7 @@ const UploadImage = ({
   label,
   isDisabled = false,
   ref,
+  previewUrl,
 }: Props) => {
   const { mutateAsync, isPending, isSuccess } = useMutation({
     mutationFn: (file: File) => uploadImage(file),
@@ -48,7 +51,16 @@ const UploadImage = ({
       }
     },
   });
-  const [imageData, setImageData] = useState<string | undefined>(undefined);
+  const [imageData, setImageData] = useState<string | undefined>(
+    previewUrl || undefined,
+  );
+
+  useEffect(() => {
+    if (previewUrl) {
+      setImageData(previewUrl);
+    }
+  }, [previewUrl]);
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useImperativeHandle(ref, () => {
@@ -73,14 +85,14 @@ const UploadImage = ({
       return;
     }
 
-    if (imageData) {
+    if (imageData?.startsWith('blob:')) {
       URL.revokeObjectURL(imageData);
     }
     setImageData(URL.createObjectURL(file));
   };
 
   useUnmount(() => {
-    if (imageData) {
+    if (imageData?.startsWith('blob:')) {
       URL.revokeObjectURL(imageData);
     }
     setImageData(undefined);

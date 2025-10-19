@@ -34,3 +34,33 @@ export type PaginationFocusesResponse = PaginationResponse<{
   sort: number;
   status: FocusStatus;
 }>;
+
+export type GetFocusResponse = {
+  id: string;
+  type: FocusType;
+  title: string;
+  focusImg: string;
+  link: string;
+  sort: number;
+  status: FocusStatus;
+};
+
+export const editFocusRequestSchema = z.object({
+  type: z.enum(FocusType),
+  title: z.string().min(1, '名称不能为空').max(16, '名称不能超过16个字符'),
+  link: z.url(),
+  focusImg: z.string().optional(),
+  sort: z
+    .number()
+    .min(0, '排序不能小于0')
+    .max(999, '排序不能大于999')
+    .optional()
+    .default(10),
+  status: z.enum(FocusStatus),
+});
+
+export type EditFocusRequest = z.infer<typeof editFocusRequestSchema>;
+
+export type EditFocusResponse = {
+  id: string;
+};

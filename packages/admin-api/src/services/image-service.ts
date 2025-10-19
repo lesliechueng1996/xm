@@ -20,3 +20,14 @@ export const saveImage = async (file: File) => {
   fs.writeFileSync(imagePath, Buffer.from(await file.arrayBuffer()));
   return imagePath.replace(staticDir, '');
 };
+
+export const deleteImage = (imagePath: string) => {
+  const staticDir = process.env.STATIC_DIR;
+  if (!staticDir) {
+    throw new Error('STATIC_DIR is not set in environment variables');
+  }
+  const fullPath = path.join(staticDir, imagePath);
+  if (fs.existsSync(fullPath)) {
+    fs.unlinkSync(fullPath);
+  }
+};

@@ -1,11 +1,12 @@
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
-import { Button, Chip, Image } from '@heroui/react';
+import { addToast, Button, Chip, Image } from '@heroui/react';
 import type { PaginationFocusesResponse } from '@repo/admin-api-types';
 import { FocusStatus, FocusType } from '@repo/common-types';
 import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
-import { paginationFocuses } from '@/apis/focus-api';
+import { deleteFocus, paginationFocuses } from '@/apis/focus-api';
 import type { Column } from '@/components/DataTable';
 import DataTable from '@/components/DataTable';
 import { beforeLoadGuard } from '@/utils/guard-util';
@@ -39,26 +40,26 @@ const focusStatusMap = {
 const FocusPage = () => {
   useDocumentTitle('轮播图列表');
   const navigate = useNavigate();
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-  // const { mutate: delRole } = useMutation({
-  //   mutationFn: (id: string) => deleteRole(id),
-  //   onSuccess: () => {
-  //     addToast({
-  //       title: '成功',
-  //       description: '删除角色成功',
-  //       color: 'success',
-  //     });
-  //     queryClient.invalidateQueries({ queryKey: ['roles'] });
-  //   },
-  //   onError: (error) => {
-  //     addToast({
-  //       title: '错误',
-  //       description: (error as Error).message || '删除角色失败',
-  //       color: 'danger',
-  //     });
-  //   },
-  // });
+  const { mutate: delFocus } = useMutation({
+    mutationFn: (id: string) => deleteFocus(id),
+    onSuccess: () => {
+      addToast({
+        title: '成功',
+        description: '删除轮播图成功',
+        color: 'success',
+      });
+      queryClient.invalidateQueries({ queryKey: ['focuses'] });
+    },
+    onError: (error) => {
+      addToast({
+        title: '错误',
+        description: error.message || '删除轮播图失败',
+        color: 'danger',
+      });
+    },
+  });
 
   const columns: Column<PaginationFocusesResponse['results'][number]>[] = [
     {
@@ -110,7 +111,7 @@ const FocusPage = () => {
         <div className="flex gap-2">
           <Button
             isIconOnly
-            aria-label="编辑角色"
+            aria-label="编辑轮播图"
             variant="faded"
             color="secondary"
             onPress={() =>
@@ -122,7 +123,10 @@ const FocusPage = () => {
           >
             <PencilSquareIcon className="size-4" />
           </Button>
-          <ConfirmDeleteBtn onConfirm={() => {}} label="删除角色" />
+          <ConfirmDeleteBtn
+            onConfirm={() => delFocus(item.id)}
+            label="删除轮播图"
+          />
         </div>
       ),
     },
