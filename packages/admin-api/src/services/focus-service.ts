@@ -2,7 +2,7 @@ import type {
   CreateFocusRequest,
   EditFocusRequest,
 } from '@repo/admin-api-types';
-import type { PaginationRequest } from '@repo/common-types';
+import type { FocusStatus, PaginationRequest } from '@repo/common-types';
 import { type Focus, prisma } from '@repo/database';
 import { buildPaginationResponse } from '@repo/server-common';
 import { HTTPException } from 'hono/http-exception';
@@ -111,4 +111,16 @@ export const deleteFocus = async (id: string) => {
     },
   });
   deleteImage(focusImg);
+};
+
+export const changeFocusStatus = async (id: string, status: FocusStatus) => {
+  await getFocus(id);
+  return await prisma.focus.update({
+    data: {
+      status,
+    },
+    where: {
+      id,
+    },
+  });
 };

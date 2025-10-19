@@ -1,12 +1,16 @@
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
-import { addToast, Button, Chip, Image } from '@heroui/react';
+import { addToast, Button, Chip, Image, Switch } from '@heroui/react';
 import type { PaginationFocusesResponse } from '@repo/admin-api-types';
 import { FocusStatus, FocusType } from '@repo/common-types';
 import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
-import { deleteFocus, paginationFocuses } from '@/apis/focus-api';
+import {
+  changeFocusStatus,
+  deleteFocus,
+  paginationFocuses,
+} from '@/apis/focus-api';
 import type { Column } from '@/components/DataTable';
 import DataTable from '@/components/DataTable';
 import { beforeLoadGuard } from '@/utils/guard-util';
@@ -22,18 +26,7 @@ const focusTypeMap = {
   },
   [FocusType.MINI_PROGRAM]: {
     label: '小程序',
-    color: 'warning',
-  },
-} as const;
-
-const focusStatusMap = {
-  [FocusStatus.SHOW]: {
-    label: '显示',
     color: 'success',
-  },
-  [FocusStatus.HIDE]: {
-    label: '隐藏',
-    color: 'danger',
   },
 } as const;
 
@@ -60,6 +53,34 @@ const FocusPage = () => {
       });
     },
   });
+
+  const { mutate: changeFocusStatusMutation } = useMutation({
+    mutationFn: changeFocusStatus,
+    onSuccess: () => {
+      addToast({
+        title: '成功',
+        description: '修改轮播图状态成功',
+        color: 'success',
+      });
+    },
+    onError: (error) => {
+      addToast({
+        title: '错误',
+        description: error.message || '修改轮播图状态失败',
+        color: 'danger',
+      });
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['focuses'] }),
+  });
+
+  const handleChangeStatus =
+    (item: PaginationFocusesResponse['results'][number]) =>
+    (isSelected: boolean) => {
+      changeFocusStatusMutation({
+        id: item.id,
+        status: isSelected ? FocusStatus.SHOW : FocusStatus.HIDE,
+      });
+    };
 
   const columns: Column<PaginationFocusesResponse['results'][number]>[] = [
     {
@@ -98,11 +119,14 @@ const FocusPage = () => {
       key: 'status',
       label: '状态',
       allowsSorting: true,
-      render: (item) => (
-        <Chip color={focusStatusMap[item.status].color} variant="flat">
-          {focusStatusMap[item.status].label}
-        </Chip>
-      ),
+      render: (item) => {
+        return (
+          <Switch
+            defaultSelected={item.status === FocusStatus.SHOW}
+            onValueChange={handleChangeStatus(item)}
+          />
+        );
+      },
     },
     {
       key: 'op',

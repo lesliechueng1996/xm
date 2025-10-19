@@ -1,4 +1,6 @@
 import type {
+  ChangeFocusStatusRequest,
+  ChangeFocusStatusResponse,
   CreateFocusRequest,
   CreateFocusResponse,
   EditFocusRequest,
@@ -6,9 +8,9 @@ import type {
   GetFocusResponse,
   PaginationFocusesResponse,
 } from '@repo/admin-api-types';
-import type { PaginationRequest } from '@repo/common-types';
+import type { FocusStatus, PaginationRequest } from '@repo/common-types';
 import qs from 'qs';
-import { del, get, post, put } from './http';
+import { del, get, patch, post, put } from './http';
 
 export const createFocus = async (request: CreateFocusRequest) => {
   return post<CreateFocusResponse>('/admin/focus', {
@@ -36,4 +38,16 @@ export const editFocus = async (id: string, request: EditFocusRequest) => {
 
 export const deleteFocus = async (id: string) => {
   return del<void>(`/admin/focus/${id}`);
+};
+
+export const changeFocusStatus = async ({
+  id,
+  status,
+}: {
+  id: string;
+  status: FocusStatus;
+}) => {
+  return patch<ChangeFocusStatusResponse>(`/admin/focus/${id}/status`, {
+    body: { status } satisfies ChangeFocusStatusRequest,
+  });
 };

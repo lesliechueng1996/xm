@@ -64,3 +64,16 @@ export type EditFocusRequest = z.infer<typeof editFocusRequestSchema>;
 export type EditFocusResponse = {
   id: string;
 };
+
+export const changeFocusStatusRequestSchema = z.object({
+  status: z.enum(FocusStatus),
+});
+
+export type ChangeFocusStatusRequest = z.infer<
+  typeof changeFocusStatusRequestSchema
+>;
+
+export type ChangeFocusStatusResponse = {
+  id: string;
+  status: FocusStatus;
+};

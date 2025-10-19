@@ -67,6 +67,13 @@ export const put = async <T>(
   return sendRequest<T>(url, { ...options, method: 'PUT' });
 };
 
+export const patch = async <T>(
+  url: string,
+  options?: Omit<Parameters<typeof sendRequest>[1], 'method'>,
+) => {
+  return sendRequest<T>(url, { ...options, method: 'PATCH' });
+};
+
 export const del = async <T>(
   url: string,
   options?: Omit<Parameters<typeof sendRequest>[1], 'method'>,
