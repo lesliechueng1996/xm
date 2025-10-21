@@ -124,3 +124,15 @@ export const changeFocusStatus = async (id: string, status: FocusStatus) => {
     },
   });
 };
+
+export const changeFocusSort = async (id: string, sort: number) => {
+  await getFocus(id);
+  return await prisma.focus.update({
+    data: {
+      sort,
+    },
+    where: {
+      id,
+    },
+  });
+};

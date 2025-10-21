@@ -1,6 +1,8 @@
 import {
+  type ChangeFocusSortResponse,
   type ChangeFocusStatusResponse,
   type CreateFocusResponse,
+  changeFocusSortRequestSchema,
   changeFocusStatusRequestSchema,
   createFocusRequestSchema,
   type EditFocusResponse,
@@ -13,6 +15,7 @@ import { Hono } from 'hono';
 import { validator } from 'hono/validator';
 import { z } from 'zod';
 import {
+  changeFocusSort,
   changeFocusStatus,
   createFocus,
   deleteFocus,
@@ -137,4 +140,29 @@ focusHandler.patch(
   },
 );
 
+focusHandler.patch(
+  '/:id/sort',
+  validator('json', (value, c) => {
+    const parsed = changeFocusSortRequestSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json(
+        {
+          message: z.prettifyError(parsed.error),
+        },
+        400,
+      );
+    }
+    return parsed.data;
+  }),
+  async (c) => {
+    canAccess(c, 'focus:edit');
+    const id = c.req.param('id');
+    const body = c.req.valid('json');
+    const focus = await changeFocusSort(id, body.sort);
+    return c.json({
+      id: focus.id,
+      sort: focus.sort,
+    } as ChangeFocusSortResponse);
+  },
+);
 export default focusHandler;

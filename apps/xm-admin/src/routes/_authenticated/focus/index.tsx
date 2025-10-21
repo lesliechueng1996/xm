@@ -3,10 +3,12 @@ import { addToast, Button, Chip, Image, Switch } from '@heroui/react';
 import type { PaginationFocusesResponse } from '@repo/admin-api-types';
 import { FocusStatus, FocusType } from '@repo/common-types';
 import ConfirmDeleteBtn from '@repo/ui-component/ConfirmDeleteBtn';
+import EditInput from '@repo/ui-component/EditInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import {
+  changeFocusSort,
   changeFocusStatus,
   deleteFocus,
   paginationFocuses,
@@ -73,6 +75,25 @@ const FocusPage = () => {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['focuses'] }),
   });
 
+  const { mutate: changeFocusSortMutation } = useMutation({
+    mutationFn: changeFocusSort,
+    onSuccess: () => {
+      addToast({
+        title: '成功',
+        description: '修改轮播图排序成功',
+        color: 'success',
+      });
+    },
+    onError: (error) => {
+      addToast({
+        title: '错误',
+        description: error.message || '修改轮播图排序失败',
+        color: 'danger',
+      });
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['focuses'] }),
+  });
+
   const handleChangeStatus =
     (item: PaginationFocusesResponse['results'][number]) =>
     (isSelected: boolean) => {
@@ -114,6 +135,17 @@ const FocusPage = () => {
       key: 'sort',
       label: '排序',
       allowsSorting: true,
+      render: (item) => (
+        <EditInput
+          value={item.sort.toString()}
+          onConfirm={(value) =>
+            changeFocusSortMutation({ id: item.id, sort: Number(value) })
+          }
+          min={0}
+          max={999}
+          type="number"
+        />
+      ),
     },
     {
       key: 'status',

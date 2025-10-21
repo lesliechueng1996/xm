@@ -77,3 +77,16 @@ export type ChangeFocusStatusResponse = {
   id: string;
   status: FocusStatus;
 };
+
+export const changeFocusSortRequestSchema = z.object({
+  sort: z.number().min(0, '排序不能小于0').max(999, '排序不能大于999'),
+});
+
+export type ChangeFocusSortRequest = z.infer<
+  typeof changeFocusSortRequestSchema
+>;
+
+export type ChangeFocusSortResponse = {
+  id: string;
+  sort: number;
+};

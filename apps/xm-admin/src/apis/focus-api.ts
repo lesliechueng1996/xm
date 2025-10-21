@@ -1,4 +1,6 @@
 import type {
+  ChangeFocusSortRequest,
+  ChangeFocusSortResponse,
   ChangeFocusStatusRequest,
   ChangeFocusStatusResponse,
   CreateFocusRequest,
@@ -49,5 +51,17 @@ export const changeFocusStatus = async ({
 }) => {
   return patch<ChangeFocusStatusResponse>(`/admin/focus/${id}/status`, {
     body: { status } satisfies ChangeFocusStatusRequest,
+  });
+};
+
+export const changeFocusSort = async ({
+  id,
+  sort,
+}: {
+  id: string;
+  sort: number;
+}) => {
+  return patch<ChangeFocusSortResponse>(`/admin/focus/${id}/sort`, {
+    body: { sort } satisfies ChangeFocusSortRequest,
   });
 };
