@@ -1,5 +1,6 @@
 export * from './access-api-type.js';
 export * from './focus-api-type.js';
+export * from './good-type-api-type.js';
 export * from './image-api-type.js';
 export * from './login-api-type.js';
 export * from './menu-api-type.js';

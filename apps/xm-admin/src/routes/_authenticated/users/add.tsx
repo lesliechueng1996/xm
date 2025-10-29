@@ -22,7 +22,7 @@ const AddUserPage = () => {
     onError: (error) => {
       addToast({
         title: '错误',
-        description: (error as Error).message || '创建管理员失败',
+        description: error.message || '创建管理员失败',
         color: 'danger',
       });
     },

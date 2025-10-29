@@ -1,6 +1,6 @@
 import { addToast } from '@heroui/react';
 import Loading from '@repo/ui-component/Loading';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editUser, getUser } from '@/apis/user-api';
@@ -9,6 +9,7 @@ import UserForm, { type FormType } from './-components/UserForm';
 
 const UserIdPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { userId } = Route.useParams();
   useDocumentTitle(`编辑管理员`);
 
@@ -32,6 +33,7 @@ const UserIdPage = () => {
         description: '编辑管理员成功',
         color: 'success',
       });
+      queryClient.invalidateQueries({ queryKey: ['user', userId] });
       navigate({ to: '/users' });
     },
     onError: (error) => {

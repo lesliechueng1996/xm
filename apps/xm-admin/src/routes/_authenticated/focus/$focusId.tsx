@@ -1,6 +1,6 @@
 import { addToast } from '@heroui/react';
 import Loading from '@repo/ui-component/Loading';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editFocus, getFocus } from '@/apis/focus-api';
@@ -9,6 +9,7 @@ import FocusForm from './-components/FocusForm';
 
 const EditFocusPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { focusId } = Route.useParams();
   useDocumentTitle(`编辑轮播图`);
 
@@ -34,6 +35,7 @@ const EditFocusPage = () => {
         description: '编辑轮播图成功',
         color: 'success',
       });
+      queryClient.invalidateQueries({ queryKey: ['focus', focusId] });
       navigate({ to: '/focus' });
     },
     onError: (error) => {

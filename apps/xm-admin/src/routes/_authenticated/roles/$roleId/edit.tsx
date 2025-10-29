@@ -1,6 +1,6 @@
 import { addToast } from '@heroui/react';
 import Loading from '@repo/ui-component/Loading';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editRole, getRole } from '@/apis/role-api';
@@ -9,6 +9,7 @@ import RoleForm, { type FormType } from '../-components/RoleForm';
 
 const RoleIdPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { roleId } = Route.useParams();
   useDocumentTitle(`编辑角色`);
 
@@ -27,6 +28,7 @@ const RoleIdPage = () => {
         description: '编辑角色成功',
         color: 'success',
       });
+      queryClient.invalidateQueries({ queryKey: ['role', roleId] });
       navigate({ to: '/roles' });
     },
     onError: (error) => {

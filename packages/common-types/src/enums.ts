@@ -19,3 +19,8 @@ export enum FocusStatus {
   SHOW = 1,
   HIDE = 0,
 }
+
+export enum GoodTypeStatus {
+  ENABLED = 1,
+  DISABLED = 0,
+}

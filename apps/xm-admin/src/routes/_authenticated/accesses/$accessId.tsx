@@ -2,7 +2,7 @@ import { addToast } from '@heroui/react';
 import type { EditAccessRequest } from '@repo/admin-api-types';
 import { AdminAccessType } from '@repo/common-types';
 import Loading from '@repo/ui-component/Loading';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useDocumentTitle } from 'usehooks-ts';
 import { editAccess, getAccess } from '@/apis/access-api';
@@ -15,6 +15,7 @@ import AccessForm, {
 
 const EditAccessPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { accessId } = Route.useParams();
   useDocumentTitle(`编辑权限`);
 
@@ -32,6 +33,7 @@ const EditAccessPage = () => {
         description: '编辑权限成功',
         color: 'success',
       });
+      queryClient.invalidateQueries({ queryKey: ['access', accessId] });
       navigate({ to: '/accesses' });
     },
     onError: (error) => {

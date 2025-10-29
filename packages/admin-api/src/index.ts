@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import z from 'zod';
 import accessHandler from './handlers/access-handler.js';
 import focusHandler from './handlers/focus-handler.js';
+import goodTypeHandler from './handlers/good-type-handler.js';
 import imageHandler from './handlers/image-handler.js';
 import loginHandler from './handlers/login-handler.js';
 import menuHandler from './handlers/menu-handler.js';
@@ -25,5 +26,6 @@ adminApi.route('/access', accessHandler);
 adminApi.route('/menu', menuHandler);
 adminApi.route('/image', imageHandler);
 adminApi.route('/focus', focusHandler);
+adminApi.route('/good-type', goodTypeHandler);
 
 export default adminApi;

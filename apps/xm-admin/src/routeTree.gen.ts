@@ -15,17 +15,21 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as Authenticated403RouteImport } from './routes/_authenticated/403'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedRolesIndexRouteImport } from './routes/_authenticated/roles/index'
+import { Route as AuthenticatedGoodTypeIndexRouteImport } from './routes/_authenticated/good-type/index'
 import { Route as AuthenticatedFocusIndexRouteImport } from './routes/_authenticated/focus/index'
 import { Route as AuthenticatedAccessesIndexRouteImport } from './routes/_authenticated/accesses/index'
 import { Route as AuthenticatedUsersAddRouteImport } from './routes/_authenticated/users/add'
 import { Route as AuthenticatedUsersUserIdRouteImport } from './routes/_authenticated/users/$userId'
 import { Route as AuthenticatedRolesAddRouteImport } from './routes/_authenticated/roles/add'
+import { Route as AuthenticatedGoodTypeAddRouteImport } from './routes/_authenticated/good-type/add'
 import { Route as AuthenticatedFocusAddRouteImport } from './routes/_authenticated/focus/add'
 import { Route as AuthenticatedFocusFocusIdRouteImport } from './routes/_authenticated/focus/$focusId'
 import { Route as AuthenticatedAccessesAddRouteImport } from './routes/_authenticated/accesses/add'
 import { Route as AuthenticatedAccessesAccessIdRouteImport } from './routes/_authenticated/accesses/$accessId'
 import { Route as AuthenticatedRolesRoleIdEditRouteImport } from './routes/_authenticated/roles/$roleId/edit'
 import { Route as AuthenticatedRolesRoleIdAccessRouteImport } from './routes/_authenticated/roles/$roleId/access'
+import { Route as AuthenticatedGoodTypeGoodTypeIdEditRouteImport } from './routes/_authenticated/good-type/$goodTypeId/edit'
+import { Route as AuthenticatedGoodTypeGoodTypeIdAttributeRouteImport } from './routes/_authenticated/good-type/$goodTypeId/attribute'
 
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
@@ -56,6 +60,12 @@ const AuthenticatedRolesIndexRoute = AuthenticatedRolesIndexRouteImport.update({
   path: '/roles/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedGoodTypeIndexRoute =
+  AuthenticatedGoodTypeIndexRouteImport.update({
+    id: '/good-type/',
+    path: '/good-type/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedFocusIndexRoute = AuthenticatedFocusIndexRouteImport.update({
   id: '/focus/',
   path: '/focus/',
@@ -83,6 +93,12 @@ const AuthenticatedRolesAddRoute = AuthenticatedRolesAddRouteImport.update({
   path: '/roles/add',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedGoodTypeAddRoute =
+  AuthenticatedGoodTypeAddRouteImport.update({
+    id: '/good-type/add',
+    path: '/good-type/add',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedFocusAddRoute = AuthenticatedFocusAddRouteImport.update({
   id: '/focus/add',
   path: '/focus/add',
@@ -118,6 +134,18 @@ const AuthenticatedRolesRoleIdAccessRoute =
     path: '/roles/$roleId/access',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedGoodTypeGoodTypeIdEditRoute =
+  AuthenticatedGoodTypeGoodTypeIdEditRouteImport.update({
+    id: '/good-type/$goodTypeId/edit',
+    path: '/good-type/$goodTypeId/edit',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGoodTypeGoodTypeIdAttributeRoute =
+  AuthenticatedGoodTypeGoodTypeIdAttributeRouteImport.update({
+    id: '/good-type/$goodTypeId/attribute',
+    path: '/good-type/$goodTypeId/attribute',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRouteRoute
@@ -127,13 +155,17 @@ export interface FileRoutesByFullPath {
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
   '/focus/$focusId': typeof AuthenticatedFocusFocusIdRoute
   '/focus/add': typeof AuthenticatedFocusAddRoute
+  '/good-type/add': typeof AuthenticatedGoodTypeAddRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/users/add': typeof AuthenticatedUsersAddRoute
   '/accesses': typeof AuthenticatedAccessesIndexRoute
   '/focus': typeof AuthenticatedFocusIndexRoute
+  '/good-type': typeof AuthenticatedGoodTypeIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
+  '/good-type/$goodTypeId/edit': typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   '/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
   '/roles/$roleId/edit': typeof AuthenticatedRolesRoleIdEditRoute
 }
@@ -145,13 +177,17 @@ export interface FileRoutesByTo {
   '/accesses/add': typeof AuthenticatedAccessesAddRoute
   '/focus/$focusId': typeof AuthenticatedFocusFocusIdRoute
   '/focus/add': typeof AuthenticatedFocusAddRoute
+  '/good-type/add': typeof AuthenticatedGoodTypeAddRoute
   '/roles/add': typeof AuthenticatedRolesAddRoute
   '/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/users/add': typeof AuthenticatedUsersAddRoute
   '/accesses': typeof AuthenticatedAccessesIndexRoute
   '/focus': typeof AuthenticatedFocusIndexRoute
+  '/good-type': typeof AuthenticatedGoodTypeIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
+  '/good-type/$goodTypeId/edit': typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   '/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
   '/roles/$roleId/edit': typeof AuthenticatedRolesRoleIdEditRoute
 }
@@ -165,13 +201,17 @@ export interface FileRoutesById {
   '/_authenticated/accesses/add': typeof AuthenticatedAccessesAddRoute
   '/_authenticated/focus/$focusId': typeof AuthenticatedFocusFocusIdRoute
   '/_authenticated/focus/add': typeof AuthenticatedFocusAddRoute
+  '/_authenticated/good-type/add': typeof AuthenticatedGoodTypeAddRoute
   '/_authenticated/roles/add': typeof AuthenticatedRolesAddRoute
   '/_authenticated/users/$userId': typeof AuthenticatedUsersUserIdRoute
   '/_authenticated/users/add': typeof AuthenticatedUsersAddRoute
   '/_authenticated/accesses/': typeof AuthenticatedAccessesIndexRoute
   '/_authenticated/focus/': typeof AuthenticatedFocusIndexRoute
+  '/_authenticated/good-type/': typeof AuthenticatedGoodTypeIndexRoute
   '/_authenticated/roles/': typeof AuthenticatedRolesIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
+  '/_authenticated/good-type/$goodTypeId/edit': typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   '/_authenticated/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
   '/_authenticated/roles/$roleId/edit': typeof AuthenticatedRolesRoleIdEditRoute
 }
@@ -185,13 +225,17 @@ export interface FileRouteTypes {
     | '/accesses/add'
     | '/focus/$focusId'
     | '/focus/add'
+    | '/good-type/add'
     | '/roles/add'
     | '/users/$userId'
     | '/users/add'
     | '/accesses'
     | '/focus'
+    | '/good-type'
     | '/roles'
     | '/users'
+    | '/good-type/$goodTypeId/attribute'
+    | '/good-type/$goodTypeId/edit'
     | '/roles/$roleId/access'
     | '/roles/$roleId/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -203,13 +247,17 @@ export interface FileRouteTypes {
     | '/accesses/add'
     | '/focus/$focusId'
     | '/focus/add'
+    | '/good-type/add'
     | '/roles/add'
     | '/users/$userId'
     | '/users/add'
     | '/accesses'
     | '/focus'
+    | '/good-type'
     | '/roles'
     | '/users'
+    | '/good-type/$goodTypeId/attribute'
+    | '/good-type/$goodTypeId/edit'
     | '/roles/$roleId/access'
     | '/roles/$roleId/edit'
   id:
@@ -222,13 +270,17 @@ export interface FileRouteTypes {
     | '/_authenticated/accesses/add'
     | '/_authenticated/focus/$focusId'
     | '/_authenticated/focus/add'
+    | '/_authenticated/good-type/add'
     | '/_authenticated/roles/add'
     | '/_authenticated/users/$userId'
     | '/_authenticated/users/add'
     | '/_authenticated/accesses/'
     | '/_authenticated/focus/'
+    | '/_authenticated/good-type/'
     | '/_authenticated/roles/'
     | '/_authenticated/users/'
+    | '/_authenticated/good-type/$goodTypeId/attribute'
+    | '/_authenticated/good-type/$goodTypeId/edit'
     | '/_authenticated/roles/$roleId/access'
     | '/_authenticated/roles/$roleId/edit'
   fileRoutesById: FileRoutesById
@@ -282,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRolesIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/good-type/': {
+      id: '/_authenticated/good-type/'
+      path: '/good-type'
+      fullPath: '/good-type'
+      preLoaderRoute: typeof AuthenticatedGoodTypeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/focus/': {
       id: '/_authenticated/focus/'
       path: '/focus'
@@ -315,6 +374,13 @@ declare module '@tanstack/react-router' {
       path: '/roles/add'
       fullPath: '/roles/add'
       preLoaderRoute: typeof AuthenticatedRolesAddRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/good-type/add': {
+      id: '/_authenticated/good-type/add'
+      path: '/good-type/add'
+      fullPath: '/good-type/add'
+      preLoaderRoute: typeof AuthenticatedGoodTypeAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/focus/add': {
@@ -359,6 +425,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRolesRoleIdAccessRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/good-type/$goodTypeId/edit': {
+      id: '/_authenticated/good-type/$goodTypeId/edit'
+      path: '/good-type/$goodTypeId/edit'
+      fullPath: '/good-type/$goodTypeId/edit'
+      preLoaderRoute: typeof AuthenticatedGoodTypeGoodTypeIdEditRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/good-type/$goodTypeId/attribute': {
+      id: '/_authenticated/good-type/$goodTypeId/attribute'
+      path: '/good-type/$goodTypeId/attribute'
+      fullPath: '/good-type/$goodTypeId/attribute'
+      preLoaderRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -369,13 +449,17 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccessesAddRoute: typeof AuthenticatedAccessesAddRoute
   AuthenticatedFocusFocusIdRoute: typeof AuthenticatedFocusFocusIdRoute
   AuthenticatedFocusAddRoute: typeof AuthenticatedFocusAddRoute
+  AuthenticatedGoodTypeAddRoute: typeof AuthenticatedGoodTypeAddRoute
   AuthenticatedRolesAddRoute: typeof AuthenticatedRolesAddRoute
   AuthenticatedUsersUserIdRoute: typeof AuthenticatedUsersUserIdRoute
   AuthenticatedUsersAddRoute: typeof AuthenticatedUsersAddRoute
   AuthenticatedAccessesIndexRoute: typeof AuthenticatedAccessesIndexRoute
   AuthenticatedFocusIndexRoute: typeof AuthenticatedFocusIndexRoute
+  AuthenticatedGoodTypeIndexRoute: typeof AuthenticatedGoodTypeIndexRoute
   AuthenticatedRolesIndexRoute: typeof AuthenticatedRolesIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedGoodTypeGoodTypeIdAttributeRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
+  AuthenticatedGoodTypeGoodTypeIdEditRoute: typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   AuthenticatedRolesRoleIdAccessRoute: typeof AuthenticatedRolesRoleIdAccessRoute
   AuthenticatedRolesRoleIdEditRoute: typeof AuthenticatedRolesRoleIdEditRoute
 }
@@ -387,13 +471,19 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccessesAddRoute: AuthenticatedAccessesAddRoute,
   AuthenticatedFocusFocusIdRoute: AuthenticatedFocusFocusIdRoute,
   AuthenticatedFocusAddRoute: AuthenticatedFocusAddRoute,
+  AuthenticatedGoodTypeAddRoute: AuthenticatedGoodTypeAddRoute,
   AuthenticatedRolesAddRoute: AuthenticatedRolesAddRoute,
   AuthenticatedUsersUserIdRoute: AuthenticatedUsersUserIdRoute,
   AuthenticatedUsersAddRoute: AuthenticatedUsersAddRoute,
   AuthenticatedAccessesIndexRoute: AuthenticatedAccessesIndexRoute,
   AuthenticatedFocusIndexRoute: AuthenticatedFocusIndexRoute,
+  AuthenticatedGoodTypeIndexRoute: AuthenticatedGoodTypeIndexRoute,
   AuthenticatedRolesIndexRoute: AuthenticatedRolesIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedGoodTypeGoodTypeIdAttributeRoute:
+    AuthenticatedGoodTypeGoodTypeIdAttributeRoute,
+  AuthenticatedGoodTypeGoodTypeIdEditRoute:
+    AuthenticatedGoodTypeGoodTypeIdEditRoute,
   AuthenticatedRolesRoleIdAccessRoute: AuthenticatedRolesRoleIdAccessRoute,
   AuthenticatedRolesRoleIdEditRoute: AuthenticatedRolesRoleIdEditRoute,
 }

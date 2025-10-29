@@ -82,3 +82,14 @@ model Focus {
 
   @@map("t_focus")
 }
+
+model GoodType {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  status      Int      @default(1)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("t_good_type")
+}
