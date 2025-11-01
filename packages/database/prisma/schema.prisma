@@ -91,5 +91,23 @@ model GoodType {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
+  attributes GoodTypeAttribute[]
+
   @@map("t_good_type")
+}
+
+model GoodTypeAttribute {
+  id        String   @id @default(cuid())
+  typeId    String   @map("type_id")
+  title     String
+  // input, textarea, select
+  attrType  String
+  attrValue String
+  status    Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  goodType GoodType @relation(fields: [typeId], references: [id])
+
+  @@map("t_good_type_attribute")
 }

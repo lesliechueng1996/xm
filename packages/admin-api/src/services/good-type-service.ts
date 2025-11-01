@@ -67,9 +67,17 @@ export const editGoodType = async (
 };
 
 export const deleteGoodType = async (id: string) => {
-  return prisma.goodType.delete({
+  const deleteGoodTypeAttr = prisma.goodTypeAttribute.deleteMany({
+    where: {
+      typeId: id,
+    },
+  });
+
+  const deleteGoodType = prisma.goodType.delete({
     where: { id },
   });
+
+  return Promise.all([deleteGoodTypeAttr, deleteGoodType]);
 };
 
 export const changeGoodTypeStatus = async (

@@ -29,7 +29,8 @@ import { Route as AuthenticatedAccessesAccessIdRouteImport } from './routes/_aut
 import { Route as AuthenticatedRolesRoleIdEditRouteImport } from './routes/_authenticated/roles/$roleId/edit'
 import { Route as AuthenticatedRolesRoleIdAccessRouteImport } from './routes/_authenticated/roles/$roleId/access'
 import { Route as AuthenticatedGoodTypeGoodTypeIdEditRouteImport } from './routes/_authenticated/good-type/$goodTypeId/edit'
-import { Route as AuthenticatedGoodTypeGoodTypeIdAttributeRouteImport } from './routes/_authenticated/good-type/$goodTypeId/attribute'
+import { Route as AuthenticatedGoodTypeGoodTypeIdAttributeIndexRouteImport } from './routes/_authenticated/good-type/$goodTypeId/attribute/index'
+import { Route as AuthenticatedGoodTypeGoodTypeIdAttributeAddRouteImport } from './routes/_authenticated/good-type/$goodTypeId/attribute/add'
 
 const LoginRouteRoute = LoginRouteRouteImport.update({
   id: '/login',
@@ -140,10 +141,16 @@ const AuthenticatedGoodTypeGoodTypeIdEditRoute =
     path: '/good-type/$goodTypeId/edit',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedGoodTypeGoodTypeIdAttributeRoute =
-  AuthenticatedGoodTypeGoodTypeIdAttributeRouteImport.update({
-    id: '/good-type/$goodTypeId/attribute',
-    path: '/good-type/$goodTypeId/attribute',
+const AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute =
+  AuthenticatedGoodTypeGoodTypeIdAttributeIndexRouteImport.update({
+    id: '/good-type/$goodTypeId/attribute/',
+    path: '/good-type/$goodTypeId/attribute/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute =
+  AuthenticatedGoodTypeGoodTypeIdAttributeAddRouteImport.update({
+    id: '/good-type/$goodTypeId/attribute/add',
+    path: '/good-type/$goodTypeId/attribute/add',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -164,10 +171,11 @@ export interface FileRoutesByFullPath {
   '/good-type': typeof AuthenticatedGoodTypeIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
-  '/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
   '/good-type/$goodTypeId/edit': typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   '/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
   '/roles/$roleId/edit': typeof AuthenticatedRolesRoleIdEditRoute
+  '/good-type/$goodTypeId/attribute/add': typeof AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute
+  '/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRouteRoute
@@ -186,10 +194,11 @@ export interface FileRoutesByTo {
   '/good-type': typeof AuthenticatedGoodTypeIndexRoute
   '/roles': typeof AuthenticatedRolesIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
-  '/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
   '/good-type/$goodTypeId/edit': typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   '/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
   '/roles/$roleId/edit': typeof AuthenticatedRolesRoleIdEditRoute
+  '/good-type/$goodTypeId/attribute/add': typeof AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute
+  '/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -210,10 +219,11 @@ export interface FileRoutesById {
   '/_authenticated/good-type/': typeof AuthenticatedGoodTypeIndexRoute
   '/_authenticated/roles/': typeof AuthenticatedRolesIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
-  '/_authenticated/good-type/$goodTypeId/attribute': typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
   '/_authenticated/good-type/$goodTypeId/edit': typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   '/_authenticated/roles/$roleId/access': typeof AuthenticatedRolesRoleIdAccessRoute
   '/_authenticated/roles/$roleId/edit': typeof AuthenticatedRolesRoleIdEditRoute
+  '/_authenticated/good-type/$goodTypeId/attribute/add': typeof AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute
+  '/_authenticated/good-type/$goodTypeId/attribute/': typeof AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -234,10 +244,11 @@ export interface FileRouteTypes {
     | '/good-type'
     | '/roles'
     | '/users'
-    | '/good-type/$goodTypeId/attribute'
     | '/good-type/$goodTypeId/edit'
     | '/roles/$roleId/access'
     | '/roles/$roleId/edit'
+    | '/good-type/$goodTypeId/attribute/add'
+    | '/good-type/$goodTypeId/attribute'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
@@ -256,10 +267,11 @@ export interface FileRouteTypes {
     | '/good-type'
     | '/roles'
     | '/users'
-    | '/good-type/$goodTypeId/attribute'
     | '/good-type/$goodTypeId/edit'
     | '/roles/$roleId/access'
     | '/roles/$roleId/edit'
+    | '/good-type/$goodTypeId/attribute/add'
+    | '/good-type/$goodTypeId/attribute'
   id:
     | '__root__'
     | '/_authenticated'
@@ -279,10 +291,11 @@ export interface FileRouteTypes {
     | '/_authenticated/good-type/'
     | '/_authenticated/roles/'
     | '/_authenticated/users/'
-    | '/_authenticated/good-type/$goodTypeId/attribute'
     | '/_authenticated/good-type/$goodTypeId/edit'
     | '/_authenticated/roles/$roleId/access'
     | '/_authenticated/roles/$roleId/edit'
+    | '/_authenticated/good-type/$goodTypeId/attribute/add'
+    | '/_authenticated/good-type/$goodTypeId/attribute/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -432,11 +445,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGoodTypeGoodTypeIdEditRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/good-type/$goodTypeId/attribute': {
-      id: '/_authenticated/good-type/$goodTypeId/attribute'
+    '/_authenticated/good-type/$goodTypeId/attribute/': {
+      id: '/_authenticated/good-type/$goodTypeId/attribute/'
       path: '/good-type/$goodTypeId/attribute'
       fullPath: '/good-type/$goodTypeId/attribute'
-      preLoaderRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeRouteImport
+      preLoaderRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/good-type/$goodTypeId/attribute/add': {
+      id: '/_authenticated/good-type/$goodTypeId/attribute/add'
+      path: '/good-type/$goodTypeId/attribute/add'
+      fullPath: '/good-type/$goodTypeId/attribute/add'
+      preLoaderRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeAddRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -458,10 +478,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedGoodTypeIndexRoute: typeof AuthenticatedGoodTypeIndexRoute
   AuthenticatedRolesIndexRoute: typeof AuthenticatedRolesIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
-  AuthenticatedGoodTypeGoodTypeIdAttributeRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeRoute
   AuthenticatedGoodTypeGoodTypeIdEditRoute: typeof AuthenticatedGoodTypeGoodTypeIdEditRoute
   AuthenticatedRolesRoleIdAccessRoute: typeof AuthenticatedRolesRoleIdAccessRoute
   AuthenticatedRolesRoleIdEditRoute: typeof AuthenticatedRolesRoleIdEditRoute
+  AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute
+  AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute: typeof AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -480,12 +501,14 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGoodTypeIndexRoute: AuthenticatedGoodTypeIndexRoute,
   AuthenticatedRolesIndexRoute: AuthenticatedRolesIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
-  AuthenticatedGoodTypeGoodTypeIdAttributeRoute:
-    AuthenticatedGoodTypeGoodTypeIdAttributeRoute,
   AuthenticatedGoodTypeGoodTypeIdEditRoute:
     AuthenticatedGoodTypeGoodTypeIdEditRoute,
   AuthenticatedRolesRoleIdAccessRoute: AuthenticatedRolesRoleIdAccessRoute,
   AuthenticatedRolesRoleIdEditRoute: AuthenticatedRolesRoleIdEditRoute,
+  AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute:
+    AuthenticatedGoodTypeGoodTypeIdAttributeAddRoute,
+  AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute:
+    AuthenticatedGoodTypeGoodTypeIdAttributeIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

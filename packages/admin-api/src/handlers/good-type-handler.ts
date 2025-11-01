@@ -135,4 +135,5 @@ goodTypeHandler.patch(
     return c.json({});
   },
 );
+
 export default goodTypeHandler;

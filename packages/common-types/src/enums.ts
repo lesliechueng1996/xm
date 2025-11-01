@@ -24,3 +24,14 @@ export enum GoodTypeStatus {
   ENABLED = 1,
   DISABLED = 0,
 }
+
+export enum GoodTypeAttrType {
+  INPUT = 'input',
+  TEXTAREA = 'textarea',
+  SELECT = 'select',
+}
+
+export enum GoodTypeAttrStatus {
+  ENABLED = 1,
+  DISABLED = 0,
+}

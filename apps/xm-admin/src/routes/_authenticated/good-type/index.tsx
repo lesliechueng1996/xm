@@ -108,6 +108,7 @@ const GoodTypePage = () => {
           <Button
             isIconOnly
             aria-label="属性列表"
+            title="属性列表"
             color="primary"
             onPress={() =>
               navigate({
